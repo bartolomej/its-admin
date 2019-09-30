@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from "react-redux";
+import { fetchUsers } from "../redux/actions";
 
 export default function Users () {
 
@@ -7,3 +9,9 @@ export default function Users () {
   )
 
 }
+/*
+export default connect(
+  null,
+  { fetchUsers }
+)(Users);
+ */
