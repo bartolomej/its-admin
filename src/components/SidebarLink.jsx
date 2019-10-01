@@ -3,7 +3,7 @@ import { Link, Route } from "react-router-dom";
 import 'styled-components/macro'
 
 
-export default function RouteTab ({ path, title, image, props, activeOnlyWhenExact}) {
+export default function SidebarLink ({ path, title, image, activeOnlyWhenExact}) {
   return (
     <Route
       path={path}
@@ -30,7 +30,7 @@ export default function RouteTab ({ path, title, image, props, activeOnlyWhenExa
               flex-direction: row;
               justify-content: space-around;
               flex: 1;
-              padding: 20px;
+              padding: 15px;
               color: ${match ? 'red' : 'black'};
               font-weight: 500;
               &:hover {
@@ -49,7 +49,8 @@ export default function RouteTab ({ path, title, image, props, activeOnlyWhenExa
               css={`
                 display; flex; 
                 flex: 0.7; 
-                justify-content: left
+                justify-content: left;
+                font-size: 14px;
               `}>{title}</span>
           </Link>
         </div>

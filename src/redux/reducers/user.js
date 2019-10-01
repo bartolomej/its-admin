@@ -2,12 +2,12 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILED,
-} from '../actions';
+} from '../action-types';
 
 const initialState = {
   loading: false,
   error: null,
-  courses: []
+  users: []
 };
 
 export default function (state = initialState, action) {
@@ -21,6 +21,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+        users: action.payload
       };
     case FETCH_USER_FAILED:
       return {

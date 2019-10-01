@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import users from "./users";
-import courses from "./courses";
+import user from "./user";
+import course from "./course";
+import admin from './admin';
 
-export default combineReducers({ courses, users });
+export default combineReducers({
+  course,
+  user,
+  admin
+});
