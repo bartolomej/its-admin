@@ -6,11 +6,13 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faBook, faToolbox, faUserAstronaut, faHome } from '@fortawesome/free-solid-svg-icons'
 import UserScreen from './screens/Users';
-import UserProfile from "./screens/UserProfile";
+import UserForm from "./screens/UserForm";
 import CourseScreen from './screens/Courses';
 import DashboardScreen from "./screens/Dashboard";
 import CourseEditor from "./screens/CourseEditor";
 import TopBar from './components/TopBar';
+import CategoryForm from "./screens/CategoryForm";
+import SubcategoryForm from "./screens/SubcategoryForm";
 
 
 const sidebarRoutes = [
@@ -31,7 +33,7 @@ const sidebarRoutes = [
     path: "/course",
     title: 'Courses',
     image: <FontAwesomeIcon icon={faBook} />,
-    main: CourseEditor
+    main: CourseScreen
   },
   {
     path: "/project",
@@ -45,24 +47,30 @@ const otherRoutes = [
   {
     path: "/user/:uid",
     title: 'Projects',
-    image: <FontAwesomeIcon icon={faToolbox} />,
-    main: UserProfile
+    main: UserForm
+  },
+  {
+    path: "/category/:uid",
+    title: 'Category',
+    main: CategoryForm
+  },
+  {
+    path: "/subcategory/:uid",
+    title: 'Subcategory',
+    main: SubcategoryForm
   },
 ];
 
 function App() {
   return (
     <Router>
-      <div
-        css={`
-          height: 100vh;
-          display: flex;
-          flex: 6;
-        `}>
+      <div>
         <div
           css={`
+            height: 100vh;
             display: flex;
-            width: 200px;
+            width: 240px;
+            position: fixed;
             flex-direction: column;
           `}>
           <div
@@ -76,7 +84,7 @@ function App() {
               firstName={'Bartolomej'}
               lastName={'Kozorog'} />
           </div>
-          <div css={`width: 100%;`}>
+          <div css={``}>
             {sidebarRoutes.map((route, index) => (
               <SidebarLink
                 key={index}
@@ -91,11 +99,13 @@ function App() {
         <div
           css={`
             flex: 5;
+            margin-left: 240px;
             display: flex;
+            min-height: 100vh;
             flex-direction: column;
             background-color: #F3F5FA;
           `}>
-          { /* <TopBar/> */ }
+          <TopBar/>
           <div css={`flex: 4.5`}>
             {sidebarRoutes.map((route, index) => (
               <Route

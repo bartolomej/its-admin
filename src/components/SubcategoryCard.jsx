@@ -1,38 +1,32 @@
 import React from 'react';
 import 'styled-components/macro'
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {far} from "@fortawesome/free-regular-svg-icons";
 import {Link} from "react-router-dom";
 import TableCard from "./base/TableCard";
 
 
-export default function ({ uid, username, email, avatar, createdDate }) {
+export default function ({ uid, name, description, image }) {
   let card = (
     <TableCard>
-      {avatar ?
-        <img css={`flex: 0.5`} src={avatar} alt={username}/> :
-        <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faUser} />
+      {image ?
+        <img css={`flex: 0.5`} src={image} alt={name}/> :
+        <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faBookmark} />
       }
       <span
         css={`
           flex: 1;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{username}</span>
+        `}>{name}</span>
       <span
         css={`
           flex: 1;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{email}</span>
-      <span
-        css={`
-          flex: 0.6;
-          font-weight: 700; 
-          font-size: 14px; 
-        `}>{createdDate}</span>
+        `}>{description}</span>
       <button
         css={`
           flex: 0.5;
@@ -52,7 +46,7 @@ export default function ({ uid, username, email, avatar, createdDate }) {
         color: inherit;
         text-decoration: none
       `}
-      to={{pathname: `/user/${uid}`,}}
+      to={{pathname: `/subcategory/${uid}`,}}
     >
       {card}
     </Link>

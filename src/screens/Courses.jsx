@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { fetchCategories, fetchSubcategories, fetchCourses } from "../redux/actions";
 import 'styled-components/macro'
+import TableView from "../components/base/TableView";
+import CategoryCard from "../components/CategoryCard";
+import SubcategoryCard from "../components/SubcategoryCard";
 
 
 class Users extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selectedCategory: null,
-      selectedSubcategory: null,
-      selectedCourse: null
-    };
   }
 
   async componentDidMount() {
@@ -23,53 +21,54 @@ class Users extends Component {
   }
 
   render() {
-    const { categories, subcategories, courses } = this.props;
-    const { selectedSubcategory, selectedCategory, selectedCourse } = this.state;
-
     return (
-      <div
-        css={`
-          display: flex;
-          flex-direction: row;
-          flex: 5;
-        `}>
-        <SelectableList
+      <div css={`
+        flex: 6;
+        display: flex;
+        flex-direction: column;
+        margin: 80px 150px;
+      `}>
+        <TableView
           title={'Categories'}
-          titleKey={'name'}
-          list={categories}
-          onSelect={async category => {
-            this.setState({
-              selectedCategory: category.uid,
-              selectedSubcategory: null,
-              selectedCourse: null
-            });
-          }}
+          columns={[
+            {title: '', flex: 0.5},
+            {title: 'name', flex: 1},
+            {title: 'description', flex: 1},
+            {title: '', flex: 0.5}
+          ]}
+          rows={
+            this.props.categories.map(c => (
+              <CategoryCard
+                key={c.uid}
+                uid={c.uid}
+                name={c.name}
+                description={c.description}
+                image={c.image}
+              />
+            ))
+          }
         />
-        <SelectableList
-          title={`Subcategories`}
-          titleKey={'name'}
-          list={selectSubcategories(subcategories, selectedCategory)}
-          onSelect={async subcategory => {
-            this.setState({
-              selectedSubcategory: subcategory.uid,
-              selectedCourse: null
-            }, async () => {
-              await fetchCourses(this.props.dispatch)(
-                this.state.selectedSubcategory);
-            });
-          }}
+        <TableView
+          styles={`margin-top: 80px;`}
+          title={'Subcategories'}
+          columns={[
+            {title: '', flex: 0.5},
+            {title: 'name', flex: 1},
+            {title: 'description', flex: 1},
+            {title: '', flex: 0.5}
+          ]}
+          rows={
+            this.props.subcategories.map(c => (
+              <SubcategoryCard
+                key={c.uid}
+                uid={c.uid}
+                name={c.name}
+                description={c.description}
+                image={c.image}
+              />
+            ))
+          }
         />
-        <SelectableList
-          title={`Courses`}
-          titleKey={'title'}
-          list={selectCourses(courses, selectedSubcategory)}
-          onSelect={async course => {
-            this.setState({
-              selectedCourse: course.uid
-            });
-          }}
-        />
-        <CoursesList/>
       </div>
     )
   }
@@ -102,6 +101,11 @@ function SelectableList ({ title, list, onSelect, titleKey }) {
             cursor: pointer;
             outline: none;
             padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+            border: none;
+            margin: 10px 0 0 0;
+            font-weight: bold;
           `}
           key={item.uid ? item.uid : i}
           onClick={() => onSelect(item)}

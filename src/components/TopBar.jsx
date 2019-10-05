@@ -1,6 +1,6 @@
 import React from 'react';
 import 'styled-components/macro'
-import { faBell, faSearch } from '@fortawesome/free-solid-svg-icons'
+import {faBell, faSearch, faUserAstronaut} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -9,9 +9,9 @@ export default function () {
     <div
       css={`
         height: 50px;
-        padding: 10px;
+        padding: 30px;
         display: flex;
-        background-color: #F3F5FA;
+        background-color: #FFFF;
         align-items: center;
       `}>
       <div
@@ -30,6 +30,8 @@ export default function () {
             background-color: #F3F5FA;
             line-height: 3;
             border: none;
+            border-radius: 20px;
+            padding-left: 10px;
           `}
           placeholder={'Search anything...'}
           type='text'/>
@@ -38,9 +40,14 @@ export default function () {
         css={`
           flex: 0.3;
           display: flex;
-          justify-content: center;
+          justify-content: flex-end;
         `}>
-        <FontAwesomeIcon icon={faBell} />
+        <FontAwesomeIcon
+          css={`font-size: 20px; margin: 10px;`}
+          icon={faBell} />
+        <FontAwesomeIcon
+          css={`font-size: 20px; margin: 10px;`}
+          icon={faUserAstronaut} />
       </div>
     </div>
   )

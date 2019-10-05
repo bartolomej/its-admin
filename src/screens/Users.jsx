@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchUsers } from "../redux/actions";
 import 'styled-components/macro'
 import UserCard from "../components/UserCard";
+import TableView from "../components/base/TableView";
 import { Link, Route } from "react-router-dom";
 
 
@@ -22,36 +23,34 @@ class Users extends Component {
   render() {
     return (
       <div css={`
-        flex: 4.5;
+        flex: 6;
         display: flex;
         flex-direction: column;
-        height: 80vh;
-        overflow-y: scroll;
+        margin: 80px 150px;
       `}>
-        <h1 css={`padding: 40px 100px`}>Users</h1>
-        <div css={`padding: 0 100px;`}>
-          {this.props.users.map(user => (
-            <Link
-              key={user.uid}
-              css={`
-                color: inherit;
-                text-decoration: none
-              `}
-              to={{
-                pathname: `/user/${user.uid}`,
-                state: { fromDashboard: true }
-              }}
-            >
+        <TableView
+          title={'Users'}
+          onAdd={() => console.log('add user')}
+          columns={[
+            {title: '', flex: 0.5},
+            {title: 'username', flex: 1},
+            {title: 'email', flex: 1},
+            {title: 'created', flex: 0.6},
+            {title: '', flex: 0.5}
+          ]}
+          rows={
+            this.props.users.map(user => (
               <UserCard
+                key={user.uid}
                 uid={user.uid}
                 username={user.username}
                 email={user.email}
                 avatar={user.image}
                 createdDate={user.createdDate}
               />
-            </Link>
-          ))}
-        </div>
+            ))
+          }
+        />
       </div>
     )
   }
