@@ -2,12 +2,16 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
 } from '../action-types';
 
 const initialState = {
   loading: false,
   error: null,
-  users: []
+  users: [],
+  admins: []
 };
 
 export default function (state = initialState, action) {
@@ -24,6 +28,25 @@ export default function (state = initialState, action) {
         users: action.payload
       };
     case FETCH_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        users: state.users.map(user => (
+          user.uid === action.payload.uid
+            ? action.payload : user
+        ))
+      };
+    case UPDATE_USER_FAILED:
       return {
         ...state,
         loading: false,

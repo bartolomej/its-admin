@@ -1,22 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
-import {far, faUser} from '@fortawesome/free-regular-svg-icons';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import InputField from "../components/base/InputField";
+import Button from "../components/base/Button";
+import { updateUser } from "../redux/actions";
 
 
 class UserForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      uid: null,
+      username: null,
+      birthDate: null,
+      email: null,
+      website: null,
+      interests: null,
+      createdDate: null,
+      deactivatedDate: null,
+      status: null,
+      avatar: null
+    };
+  }
+
+  componentDidMount() {
+    const userUid = this.props.match.params.uid;
+    const user = selectUser(this.props.users, userUid);
+    this.setState({
+      uid: user.uid,
+      username: user.username,
+      birthDate: user.birthDate,
+      email: user.email,
+      website: user.website,
+      interests: user.interests,
+      createdDate: user.createdDate,
+      deactivatedDate: user.deactivatedDate,
+      status: user.status,
+      avatar: user.avatar
+    })
   }
 
   render() {
-    const userUid = this.props.match.params.uid;
-    const user = selectUser(this.props.users, userUid);
-    console.log(user);
     return (
       <div
         css={`
@@ -33,43 +58,51 @@ class UserForm extends Component {
           `}>
           <InputField
             description={'UID'}
-            onInput={console.log}
-            value={user.uid}
+            value={this.state.uid}
             disable
           />
           <InputField
             description={'Username'}
-            onInput={console.log}
-            value={user.username}
+            onInput={username => this.setState({ username })}
+            value={this.state.username}
           />
           <InputField
             description={'Email'}
-            onInput={console.log}
-            value={user.email}
+            onInput={email => this.setState({ email })}
+            value={this.state.email}
           />
           <InputField
             description={'Website'}
-            onInput={console.log}
-            value={user.website}
+            onInput={website => this.setState({ website })}
+            value={this.state.website}
           />
           <InputField
             description={'Birth date'}
-            onInput={console.log}
-            value={user.username}
+            onInput={birthDate => this.setState({ birthDate })}
+            value={this.state.birthDate}
           />
           <InputField
             description={'Joined'}
-            onInput={console.log}
-            value={user.username}
+            onInput={createdDate => this.setState({ createdDate })}
+            value={this.state.createdDate}
           />
           <InputField
             description={'Status'}
-            onInput={console.log}
-            value={user.status}
+            onInput={status => this.setState({ status })}
+            value={this.state.status}
+          />
+          <Button
+            style={``}
+            title={'UPDATE'}
+            onClick={this.updateUser}
           />
         </div>
       </div>
     )
+  }
+
+  updateUser = async () => {
+    await updateUser(this.props.dispatch)(this.state);
   }
 
 }

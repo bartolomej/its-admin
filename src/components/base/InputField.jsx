@@ -26,14 +26,13 @@ export default function ({ description, placeholder, onInput, value, disable = f
         <input
           css={inputStyles}
           type={'text'}
-          onChange={onInput}
           value={value}
           disabled
         /> :
         <input
           css={inputStyles}
           type={'text'}
-          onChange={onInput}
+          onChange={event => onInput(event.target.value)}
           value={value}
         />
       }

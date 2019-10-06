@@ -13,31 +13,32 @@ import CourseEditor from "./screens/CourseEditor";
 import TopBar from './components/TopBar';
 import CategoryForm from "./screens/CategoryForm";
 import SubcategoryForm from "./screens/SubcategoryForm";
+import AdminForm from "./screens/AdminForm";
 
 
 const sidebarRoutes = [
   {
     path: "/",
     exact: true,
-    title: 'Dashboard',
+    title: 'DASHBOARD',
     image: <FontAwesomeIcon icon={faHome} />,
     main: DashboardScreen
   },
   {
     path: "/user",
-    title: 'Users',
+    title: 'USERS',
     image: <FontAwesomeIcon icon={faUser} />,
     main: UserScreen
   },
   {
     path: "/course",
-    title: 'Courses',
+    title: 'COURSES',
     image: <FontAwesomeIcon icon={faBook} />,
     main: CourseScreen
   },
   {
     path: "/project",
-    title: 'Projects',
+    title: 'PROJECTS',
     image: <FontAwesomeIcon icon={faToolbox} />,
     main: () => <h2>Projects screen</h2>
   },
@@ -58,6 +59,11 @@ const otherRoutes = [
     path: "/subcategory/:uid",
     title: 'Subcategory',
     main: SubcategoryForm
+  },
+  {
+    path: "/admin/:uid",
+    title: 'Admin',
+    main: AdminForm
   },
 ];
 

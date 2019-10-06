@@ -26,7 +26,7 @@ class Users extends Component {
         flex: 6;
         display: flex;
         flex-direction: column;
-        margin: 80px 150px;
+        margin: 50px 80px;
       `}>
         <TableView
           title={'Categories'}
@@ -49,7 +49,7 @@ class Users extends Component {
           }
         />
         <TableView
-          styles={`margin-top: 80px;`}
+          styles={`margin-top: 30px;`}
           title={'Subcategories'}
           columns={[
             {title: '', flex: 0.5},

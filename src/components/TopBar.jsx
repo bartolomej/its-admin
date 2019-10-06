@@ -1,7 +1,8 @@
 import React from 'react';
 import 'styled-components/macro'
-import {faBell, faSearch, faUserAstronaut} from '@fortawesome/free-solid-svg-icons'
+import { faBell, faSearch, faUserAstronaut, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 
 export default function () {
@@ -14,6 +15,17 @@ export default function () {
         background-color: #FFFF;
         align-items: center;
       `}>
+      <div>
+        <Link
+          css={`
+            color: inherit;
+            text-decoration: none
+          `}
+          to={{pathname: `/user/`,}}
+        >
+          <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft} />
+        </Link>
+      </div>
       <div
         css={`
           flex: 0.7;

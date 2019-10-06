@@ -8,11 +8,11 @@ import {Link} from "react-router-dom";
 import TableCard from "./base/TableCard";
 
 
-export default function ({ uid, username, email, website, avatar, createdDate, interests }) {
+export default function ({ uid, firstName, lastName, email, phoneNumber, createdDate, role, avatar }) {
   let card = (
     <TableCard>
       {avatar ?
-        <img css={`flex: 0.5`} src={avatar} alt={username}/> :
+        <img css={`flex: 0.5`} src={avatar} alt={firstName}/> :
         <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faUser} />
       }
       <span
@@ -20,7 +20,13 @@ export default function ({ uid, username, email, website, avatar, createdDate, i
           flex: 0.5;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{username}</span>
+        `}>{firstName}</span>
+      <span
+        css={`
+          flex: 0.5;
+          font-weight: 700; 
+          font-size: 14px; 
+        `}>{lastName}</span>
       <span
         css={`
           flex: 1;
@@ -29,19 +35,19 @@ export default function ({ uid, username, email, website, avatar, createdDate, i
         `}>{email}</span>
       <span
         css={`
-          flex: 1;
+          flex: 0.5;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{website}</span>
-      <span
-        css={`
-          flex: 1;
-          font-weight: 700; 
-          font-size: 14px; 
-        `}>{interests.join(', ')}</span>
+        `}>{phoneNumber}</span>
       <span
         css={`
           flex: 0.5;
+          font-weight: 700; 
+          font-size: 14px; 
+        `}>{role}</span>
+      <span
+        css={`
+          flex: 1;
           font-weight: 700; 
           font-size: 14px; 
         `}>{createdDate}</span>
@@ -64,7 +70,7 @@ export default function ({ uid, username, email, website, avatar, createdDate, i
         color: inherit;
         text-decoration: none
       `}
-      to={{pathname: `/user/${uid}`,}}
+      to={{pathname: `/admin/${uid}`,}}
     >
       {card}
     </Link>

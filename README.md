@@ -1,6 +1,16 @@
 # ITS admin app
 
 
+### Color schemas
+
+```css
+#1C1D24
+#EA2340
+#P5EEE6
+#FFFFFF
+```
+
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -13,6 +13,7 @@
 
 # production
 /build
+app.json
 
 # misc
 .DS_Store

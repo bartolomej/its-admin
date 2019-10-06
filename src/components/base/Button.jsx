@@ -2,7 +2,7 @@ import React from 'react';
 import 'styled-components/macro'
 
 
-export default function ({ title, onClick }) {
+export default function ({ title, onClick, style }) {
   return (
     <button
       css={`
@@ -22,6 +22,7 @@ export default function ({ title, onClick }) {
           -ms-transform:translateZ(-4px);
           -webkit-transform:translateZ(-4px);
         }
+        ${style}
     `}
       onClick={() => onClick()}
     >

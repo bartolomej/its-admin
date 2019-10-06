@@ -27,7 +27,7 @@ export default function ({ columns, rows, title, styles, onAdd }) {
           margin: 20px 0;
         `}>
         <h1 css={`padding: 0; margin: 0;`}>{title}</h1>
-        <Button title={'Add user'} onClick={() => onAdd()} />
+        <Button title={`ADD ${title.toUpperCase()}`} onClick={() => onAdd()} />
       </div>
       <div
         css={`
@@ -125,14 +125,14 @@ function PageNumber({ pageNumber, onClick, selected }) {
   return (
     <button
       css={`
-        background: ${selected ? 'red': 'none'};
+        background: ${selected ? '#FFFF': 'none'};
         cursor: pointer;
         outline: none;
         display: block;
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        border: 2px solid red;
+        border: 2px solid #FFFF;
         margin: 10px;
       `}
       onClick={() => onClick(pageNumber)}>

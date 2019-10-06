@@ -16,25 +16,41 @@ import {
   FETCH_SUBCATEGORIES_SUCCESS,
   FETCH_COURSES_FAILED,
   FETCH_COURSES_REQUEST,
-  FETCH_COURSES_SUCCESS
+  FETCH_COURSES_SUCCESS,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
+  UPDATE_ADMIN_REQUEST, UPDATE_ADMIN_SUCCESS, UPDATE_ADMIN_FAILED
 } from "./action-types";
 
+
+const host = 'http://localhost:3000';
 
 export const fetchUsers = dispatch => async () => {
   dispatch({ type: FETCH_USER_REQUEST });
   try {
-    let users = await get('/user');
-    dispatch({ type: FETCH_USER_SUCCESS, payload: users });
+    const response = await getData(`/user`);
+    dispatch({ type: FETCH_USER_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_USER_FAILED, payload: e })
+  }
+};
+
+export const updateUser = dispatch => async (user) => {
+  dispatch({ type: UPDATE_USER_REQUEST });
+  try {
+    const response = await putData(`/user/${user.uid}`, user);
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: UPDATE_USER_FAILED, payload: e })
   }
 };
 
 export const fetchProfile = dispatch => async (uid) => {
   dispatch({ type: FETCH_PROFILE_REQUEST });
   try {
-    let profile = await get(`/admin/${uid}`);
-    dispatch({ type: FETCH_PROFILE_SUCCESS, payload: profile });
+    const response = await getData(`/admin/${uid}`);
+    dispatch({ type: FETCH_PROFILE_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_PROFILE_FAILED, payload: e })
   }
@@ -43,18 +59,28 @@ export const fetchProfile = dispatch => async (uid) => {
 export const fetchAdmins = dispatch => async () => {
   dispatch({ type: FETCH_ADMINS_REQUEST });
   try {
-    let admins = await get('/admin');
-    dispatch({ type: FETCH_ADMINS_SUCCESS, payload: admins });
+    const response = await getData(`/admin`);
+    dispatch({ type: FETCH_ADMINS_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_ADMINS_FAILED, payload: e })
+  }
+};
+
+export const updateAdmin = dispatch => async (admin) => {
+  dispatch({ type: UPDATE_ADMIN_REQUEST });
+  try {
+    const response = await putData(`/admin/${admin.uid}`, admin);
+    dispatch({ type: UPDATE_ADMIN_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: UPDATE_ADMIN_FAILED, payload: e })
   }
 };
 
 export const fetchCategories = dispatch => async () => {
   dispatch({ type: FETCH_CATEGORIES_REQUEST });
   try {
-    let categories = await get('/education/category');
-    dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: categories });
+    const response = await getData(`/education/category`);
+    dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_CATEGORIES_FAILED, payload: e })
   }
@@ -63,8 +89,8 @@ export const fetchCategories = dispatch => async () => {
 export const fetchSubcategories = dispatch => async () => {
   dispatch({ type: FETCH_SUBCATEGORIES_REQUEST });
   try {
-    let subcategories = await get(`/education/subcategory`);
-    dispatch({ type: FETCH_SUBCATEGORIES_SUCCESS, payload: subcategories });
+    const response = await getData(`/education/subcategory`);
+    dispatch({ type: FETCH_SUBCATEGORIES_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_SUBCATEGORIES_FAILED, payload: e })
   }
@@ -72,23 +98,43 @@ export const fetchSubcategories = dispatch => async () => {
 
 export const fetchCourses = dispatch => async (subcategoryUid) => {
   dispatch({ type: FETCH_COURSES_REQUEST });
+  const url = `/education/course${subcategoryUid ? `?subcategory=${subcategoryUid}` : ''}`;
   try {
-    let courses = await get(
-      `/education/course${subcategoryUid ? `?subcategory=${subcategoryUid}` : ''}`
-    );
-    dispatch({ type: FETCH_COURSES_SUCCESS, payload: courses });
+    const response = await getData(url);
+    dispatch({ type: FETCH_COURSES_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_COURSES_FAILED, payload: e })
   }
 };
 
+async function putData(url = '', data = {}) {
+  const response = await fetch(host + url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  return await response.json();
+}
 
+async function postData(url = '', data = {}) {
+  const response = await fetch(host + url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  return await response.json();
+}
 
-async function get(url) {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000' + url)
-      .then(res => res.json())
-      .then(json => resolve(json))
-      .catch(error => reject(error));
-  })
+async function getData(url) {
+  const response = await fetch(host + url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+  return await response.json();
 }
