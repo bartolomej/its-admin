@@ -5,6 +5,7 @@ import 'styled-components/macro'
 import TableView from "../components/base/TableView";
 import CategoryCard from "../components/CategoryCard";
 import SubcategoryCard from "../components/SubcategoryCard";
+import CourseCard from "../components/CourseCard";
 
 
 class Users extends Component {
@@ -16,7 +17,8 @@ class Users extends Component {
   async componentDidMount() {
     await Promise.all([
       await fetchCategories(this.props.dispatch)(),
-      await fetchSubcategories(this.props.dispatch)()
+      await fetchSubcategories(this.props.dispatch)(),
+      await fetchCourses(this.props.dispatch)()
     ]);
   }
 
@@ -69,52 +71,32 @@ class Users extends Component {
             ))
           }
         />
+        <TableView
+          styles={`margin-top: 30px;`}
+          title={'Courses'}
+          columns={[
+            {title: '', flex: 0.5},
+            {title: 'name', flex: 1},
+            {title: 'description', flex: 1},
+            {title: '', flex: 0.5}
+          ]}
+          rows={
+            this.props.courses.map(c => (
+              <CourseCard
+                key={c.uid}
+                uid={c.uid}
+                title={c.title}
+                description={c.description}
+                tags={c.tags}
+                created={c.created}
+              />
+            ))
+          }
+        />
       </div>
     )
   }
 
-}
-
-
-function CoursesList () {
-  return (
-    <div css={`flex: 2`}>
-      Courses
-    </div>
-  )
-}
-
-function SelectableList ({ title, list, onSelect, titleKey }) {
-  return (
-    <div
-      css={`
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-      `}>
-      <h3>{title}</h3>
-      {list.map((item, i) => (
-        <button
-          css={`
-            background: none;
-            border: 1px solid black;
-            cursor: pointer;
-            outline: none;
-            padding: 10px;
-            background-color: white;
-            border-radius: 10px;
-            border: none;
-            margin: 10px 0 0 0;
-            font-weight: bold;
-          `}
-          key={item.uid ? item.uid : i}
-          onClick={() => onSelect(item)}
-        >
-          { item[titleKey] }
-        </button>
-      ))}
-    </div>
-  )
 }
 
 function selectSubcategories (subcategories, categoryUid) {

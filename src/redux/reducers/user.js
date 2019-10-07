@@ -4,14 +4,13 @@ import {
   FETCH_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILED,
+  UPDATE_USER_FAILED, ADD_USER_REQUEST, ADD_USER_SUCCESS, ADD_USER_FAILED,
 } from '../action-types';
 
 const initialState = {
   loading: false,
   error: null,
   users: [],
-  admins: []
 };
 
 export default function (state = initialState, action) {
@@ -47,6 +46,23 @@ export default function (state = initialState, action) {
         ))
       };
     case UPDATE_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case ADD_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ADD_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: [...state.users, action.payload]
+      };
+    case ADD_USER_FAILED:
       return {
         ...state,
         loading: false,

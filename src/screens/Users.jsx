@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { fetchAdmins, fetchUsers } from "../redux/actions";
+import { fetchUsers, addUser } from "../redux/actions";
 import 'styled-components/macro'
 import UserCard from "../components/UserCard";
 import TableView from "../components/base/TableView";
-import AdminCard from "../components/AdminCard";
 
 
 class Users extends Component {
@@ -18,9 +17,6 @@ class Users extends Component {
     if (this.props.users.length === 0) {
       await fetchUsers(this.props.dispatch)();
     }
-    if (this.props.admins.length === 0) {
-      await fetchAdmins(this.props.dispatch)();
-    }
   }
 
   render() {
@@ -33,7 +29,7 @@ class Users extends Component {
       `}>
         <TableView
           title={'User'}
-          onAdd={() => console.log('add user')}
+          onAdd={async () => await addUser(this.props.dispatch)(this.state)}
           columns={[
             {title: '', flex: 0.5},
             {title: 'username', flex: 0.5},
@@ -50,38 +46,10 @@ class Users extends Component {
                 uid={user.uid}
                 username={user.username}
                 email={user.email}
-                website={user.website}
+                type={user.type}
                 interests={user.interests}
                 avatar={user.image}
                 createdDate={user.createdDate}
-              />
-            ))
-          }
-        />
-        <TableView
-          title={'Admin'}
-          onAdd={() => console.log('add admin')}
-          columns={[
-            {title: '', flex: 0.5},
-            {title: 'firstName', flex: 0.5},
-            {title: 'lastName', flex: 0.5},
-            {title: 'email', flex: 1},
-            {title: 'phone', flex: 0.5},
-            {title: 'role', flex: 0.5},
-            {title: 'created', flex: 1},
-            {title: '', flex: 0.5}
-          ]}
-          rows={
-            this.props.admins.map(admin => (
-              <AdminCard
-                key={admin.uid}
-                uid={admin.uid}
-                firstName={admin.firstName}
-                lastName={admin.lastName}
-                email={admin.email}
-                role={admin.role}
-                phoneNumber={admin.phoneNumber}
-                createdDate={admin.createdDate}
               />
             ))
           }
@@ -96,5 +64,4 @@ export default connect(state => ({
   isLoading: state.user.isLoading,
   error: state.user.error,
   users: state.user.users,
-  admins: state.admin.admins
 }))(Users);

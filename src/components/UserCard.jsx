@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import TableCard from "./base/TableCard";
 
 
-export default function ({ uid, username, email, website, avatar, createdDate, interests }) {
+export default function ({ uid, username, email, type, avatar, createdDate, interests }) {
   let card = (
     <TableCard>
       {avatar ?
@@ -32,7 +32,7 @@ export default function ({ uid, username, email, website, avatar, createdDate, i
           flex: 1;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{website}</span>
+        `}>{type}</span>
       <span
         css={`
           flex: 1;

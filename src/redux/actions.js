@@ -2,9 +2,6 @@ import {
   FETCH_USER_FAILED,
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
-  FETCH_ADMINS_FAILED,
-  FETCH_ADMINS_REQUEST,
-  FETCH_ADMINS_SUCCESS,
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_REQUEST,
   FETCH_PROFILE_SUCCESS,
@@ -20,7 +17,8 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
-  UPDATE_ADMIN_REQUEST, UPDATE_ADMIN_SUCCESS, UPDATE_ADMIN_FAILED
+  ADD_USER_REQUEST,
+  ADD_USER_SUCCESS, ADD_USER_FAILED
 } from "./action-types";
 
 
@@ -46,33 +44,23 @@ export const updateUser = dispatch => async (user) => {
   }
 };
 
+export const addUser = dispatch => async (user) => {
+  dispatch({ type: ADD_USER_REQUEST });
+  try {
+    const response = await putData(`/user`, user);
+    dispatch({ type: ADD_USER_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: ADD_USER_FAILED, payload: e })
+  }
+};
+
 export const fetchProfile = dispatch => async (uid) => {
   dispatch({ type: FETCH_PROFILE_REQUEST });
   try {
-    const response = await getData(`/admin/${uid}`);
+    const response = await getData(`/user/${uid}`);
     dispatch({ type: FETCH_PROFILE_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_PROFILE_FAILED, payload: e })
-  }
-};
-
-export const fetchAdmins = dispatch => async () => {
-  dispatch({ type: FETCH_ADMINS_REQUEST });
-  try {
-    const response = await getData(`/admin`);
-    dispatch({ type: FETCH_ADMINS_SUCCESS, payload: response })
-  } catch (e) {
-    dispatch({ type: FETCH_ADMINS_FAILED, payload: e })
-  }
-};
-
-export const updateAdmin = dispatch => async (admin) => {
-  dispatch({ type: UPDATE_ADMIN_REQUEST });
-  try {
-    const response = await putData(`/admin/${admin.uid}`, admin);
-    dispatch({ type: UPDATE_ADMIN_SUCCESS, payload: response })
-  } catch (e) {
-    dispatch({ type: UPDATE_ADMIN_FAILED, payload: e })
   }
 };
 

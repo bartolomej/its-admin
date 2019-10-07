@@ -13,7 +13,6 @@ import CourseEditor from "./screens/CourseEditor";
 import TopBar from './components/TopBar';
 import CategoryForm from "./screens/CategoryForm";
 import SubcategoryForm from "./screens/SubcategoryForm";
-import AdminForm from "./screens/AdminForm";
 
 
 const sidebarRoutes = [
@@ -47,24 +46,20 @@ const sidebarRoutes = [
 const otherRoutes = [
   {
     path: "/user/:uid",
-    title: 'Projects',
     main: UserForm
   },
   {
     path: "/category/:uid",
-    title: 'Category',
     main: CategoryForm
   },
   {
     path: "/subcategory/:uid",
-    title: 'Subcategory',
     main: SubcategoryForm
   },
   {
-    path: "/admin/:uid",
-    title: 'Admin',
-    main: AdminForm
-  },
+    path: "/course/:uid",
+    main: CourseEditor
+  }
 ];
 
 function App() {
