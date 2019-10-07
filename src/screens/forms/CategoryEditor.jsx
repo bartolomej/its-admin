@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
-import {far, faUser} from '@fortawesome/free-regular-svg-icons';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import InputField from "../components/base/InputField";
+import InputField from "../../components/base/InputField";
+import Button from "../../components/base/Button";
+import { updateCategory } from "../../redux/actions";
 
 
 class UserForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      uid: null,
+      name: null,
+      description: null
+    };
+  }
+
+  componentDidMount() {
+    const categoryUid = this.props.match.params.uid;
+    const category = selectCategory(this.props.categories, categoryUid);
+    this.setState({
+      uid: category.uid,
+      name: category.name,
+      description: category.description
+    });
   }
 
   render() {
-    const categoryUid = this.props.match.params.uid;
-    const category = selectCategory(this.props.categories, categoryUid);
-    console.log(category);
     return (
       <div
         css={`
@@ -33,19 +44,25 @@ class UserForm extends Component {
           `}>
           <InputField
             description={'UID'}
-            onInput={console.log}
-            value={category.uid}
+            value={this.state.uid}
             disable
           />
           <InputField
             description={'Name'}
-            onInput={console.log}
-            value={category.name}
+            onInput={name => this.setState({ name })}
+            value={this.state.name}
           />
           <InputField
             description={'Description'}
-            onInput={console.log}
-            value={category.description}
+            onInput={description => this.setState({ description })}
+            value={this.state.description}
+          />
+          <Button
+            style={``}
+            title={'UPDATE'}
+            onClick={async () => {
+              await updateCategory(this.props.dispatch)(this.state);
+            }}
           />
         </div>
       </div>

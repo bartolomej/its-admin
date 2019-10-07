@@ -18,7 +18,17 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
   ADD_USER_REQUEST,
-  ADD_USER_SUCCESS, ADD_USER_FAILED
+  ADD_USER_SUCCESS,
+  ADD_USER_FAILED,
+  UPDATE_COURSE_FAILED,
+  UPDATE_COURSE_REQUEST,
+  UPDATE_COURSE_SUCCESS,
+  UPDATE_SUBCATEGORY_REQUEST,
+  UPDATE_SUBCATEGORY_SUCCESS,
+  UPDATE_SUBCATEGORY_FAILED,
+  UPDATE_CATEGORY_REQUEST,
+  UPDATE_CATEGORY_SUCCESS,
+  UPDATE_CATEGORY_FAILED
 } from "./action-types";
 
 
@@ -74,6 +84,17 @@ export const fetchCategories = dispatch => async () => {
   }
 };
 
+export const updateCategory = dispatch => async (category) => {
+  dispatch({ type: UPDATE_CATEGORY_REQUEST });
+  const url = `/education/category/${category.uid}`;
+  try {
+    const response = await putData(url, category);
+    dispatch({ type: UPDATE_CATEGORY_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: UPDATE_CATEGORY_FAILED, payload: e })
+  }
+};
+
 export const fetchSubcategories = dispatch => async () => {
   dispatch({ type: FETCH_SUBCATEGORIES_REQUEST });
   try {
@@ -81,6 +102,17 @@ export const fetchSubcategories = dispatch => async () => {
     dispatch({ type: FETCH_SUBCATEGORIES_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_SUBCATEGORIES_FAILED, payload: e })
+  }
+};
+
+export const updateSubcategory = dispatch => async (subcategory) => {
+  dispatch({ type: UPDATE_SUBCATEGORY_REQUEST });
+  const url = `/education/subcategory/${subcategory.uid}`;
+  try {
+    const response = await putData(url, subcategory);
+    dispatch({ type: UPDATE_SUBCATEGORY_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: UPDATE_SUBCATEGORY_FAILED, payload: e })
   }
 };
 
@@ -92,6 +124,17 @@ export const fetchCourses = dispatch => async (subcategoryUid) => {
     dispatch({ type: FETCH_COURSES_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_COURSES_FAILED, payload: e })
+  }
+};
+
+export const updateCourse = dispatch => async (course) => {
+  dispatch({ type: UPDATE_COURSE_REQUEST });
+  const url = `/education/course/${course.uid}`;
+  try {
+    const response = await putData(url, course);
+    dispatch({ type: UPDATE_COURSE_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: UPDATE_COURSE_FAILED, payload: e })
   }
 };
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
-import InputField from "../components/base/InputField";
-import Button from "../components/base/Button";
-import { updateUser } from "../redux/actions";
+import InputField from "../../components/base/InputField";
+import Button from "../../components/base/Button";
+import { updateUser } from "../../redux/actions";
 
 
-class UserForm extends Component {
+class UserEditor extends Component {
 
   constructor(props) {
     super(props);
@@ -94,15 +94,13 @@ class UserForm extends Component {
           <Button
             style={``}
             title={'UPDATE'}
-            onClick={this.updateUser}
+            onClick={async () => {
+              await updateUser(this.props.dispatch)(this.state);
+            }}
           />
         </div>
       </div>
     )
-  }
-
-  updateUser = async () => {
-    await updateUser(this.props.dispatch)(this.state);
   }
 
 }
@@ -116,4 +114,4 @@ export default connect(state => ({
   isLoading: state.user.isLoading,
   error: state.user.error,
   users: state.user.users,
-}))(UserForm);
+}))(UserEditor);

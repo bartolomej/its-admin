@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
-import {far, faUser} from '@fortawesome/free-regular-svg-icons';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import InputField from "../components/base/InputField";
+import InputField from "../../components/base/InputField";
+import Button from "../../components/base/Button";
+import { updateSubcategory } from "../../redux/actions";
 
 
 class UserForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      uid: null,
+      name: null,
+      description: null,
+      category: null
+    };
+  }
+
+  componentDidMount() {
+    const subcategoryUid = this.props.match.params.uid;
+    const subcategory = selectCategory(this.props.subcategories, subcategoryUid);
+    this.setState({
+      uid: subcategory.uid,
+      name: subcategory.name,
+      description: subcategory.description,
+      category: subcategory.category
+    })
   }
 
   render() {
-    const subcategoryUid = this.props.match.params.uid;
-    const subcategory = selectCategory(this.props.subcategories, subcategoryUid);
     return (
       <div
         css={`
@@ -32,24 +46,30 @@ class UserForm extends Component {
           `}>
           <InputField
             description={'UID'}
-            onInput={console.log}
-            value={subcategory.uid}
+            value={this.state.uid}
             disable
           />
           <InputField
             description={'Name'}
-            onInput={console.log}
-            value={subcategory.name}
+            onInput={name => this.setState({ name })}
+            value={this.state.name}
           />
           <InputField
             description={'Description'}
-            onInput={console.log}
-            value={subcategory.description}
+            onInput={description => this.setState({ description })}
+            value={this.state.description}
           />
           <InputField
             description={'Category'}
-            onInput={console.log}
-            value={subcategory.category}
+            onInput={category => this.setState({ category })}
+            value={this.state.category}
+          />
+          <Button
+            style={``}
+            title={'UPDATE'}
+            onClick={async () => {
+              await updateSubcategory(this.props.dispatch)(this.state)
+            }}
           />
         </div>
       </div>

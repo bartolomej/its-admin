@@ -6,13 +6,13 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faBook, faToolbox, faUserAstronaut, faHome } from '@fortawesome/free-solid-svg-icons'
 import UserScreen from './screens/Users';
-import UserForm from "./screens/UserForm";
+import UserForm from "./screens/forms/UserEditor";
 import CourseScreen from './screens/Courses';
 import DashboardScreen from "./screens/Dashboard";
-import CourseEditor from "./screens/CourseEditor";
+import CourseEditor from "./screens/forms/CourseEditor";
 import TopBar from './components/TopBar';
-import CategoryForm from "./screens/CategoryForm";
-import SubcategoryForm from "./screens/SubcategoryForm";
+import CategoryForm from "./screens/forms/CategoryEditor";
+import SubcategoryForm from "./screens/forms/SubcategoryEditor";
 
 
 const sidebarRoutes = [

@@ -99,16 +99,6 @@ class Users extends Component {
 
 }
 
-function selectSubcategories (subcategories, categoryUid) {
-  if (categoryUid === null) return [];
-  return subcategories.filter(s => s.category === categoryUid);
-}
-
-function selectCourses (courses, subcategoryUid) {
-  if (subcategoryUid === null) return [];
-  return courses.filter(c => c.subcategory.includes(subcategoryUid));
-}
-
 export default connect(state => ({
   isLoading: state.course.isLoading,
   error: state.course.error,

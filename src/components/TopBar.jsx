@@ -3,9 +3,22 @@ import 'styled-components/macro'
 import { faBell, faSearch, faUserAstronaut, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 
+/**
+ * <Link
+ css={`
+            color: inherit;
+            text-decoration: none
+          `}
+ to={{pathname: `/user/`,}}
+ >
+ <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft} />
+ </Link>
+ */
 
-export default function () {
+export default withRouter(({ history }) => {
+  console.log(history);
   return (
     <div
       css={`
@@ -16,15 +29,16 @@ export default function () {
         align-items: center;
       `}>
       <div>
-        <Link
+        <button
           css={`
-            color: inherit;
-            text-decoration: none
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
           `}
-          to={{pathname: `/user/`,}}
-        >
+          onClick={history.goBack}>
           <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft} />
-        </Link>
+        </button>
       </div>
       <div
         css={`
@@ -63,4 +77,4 @@ export default function () {
       </div>
     </div>
   )
-}
+})
