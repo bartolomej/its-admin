@@ -4,7 +4,7 @@ import SidebarLink from './components/SidebarLink';
 import 'styled-components/macro'
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faBook, faToolbox, faUserAstronaut, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faBook, faToolbox, faUserAstronaut, faHome, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import UserScreen from './screens/Users';
 import UserForm from "./screens/forms/UserEditor";
 import CourseScreen from './screens/Courses';
@@ -14,6 +14,7 @@ import TopBar from './components/TopBar';
 import CategoryForm from "./screens/forms/CategoryEditor";
 import SubcategoryForm from "./screens/forms/SubcategoryEditor";
 import Projects from "./screens/Projects";
+import Emails from "./screens/Emails";
 
 
 const sidebarRoutes = [
@@ -41,6 +42,12 @@ const sidebarRoutes = [
     title: 'PROJECTS',
     image: <FontAwesomeIcon icon={faToolbox} />,
     main: Projects
+  },
+  {
+    path: "/email",
+    title: 'EMAILS',
+    image: <FontAwesomeIcon icon={faEnvelope} />,
+    main: Emails
   },
 ];
 

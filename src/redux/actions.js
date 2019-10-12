@@ -50,7 +50,11 @@ import {
   REMOVE_COURSE_SUCCESS,
   REMOVE_COURSE_FAILED,
   REMOVE_USER_REQUEST,
-  REMOVE_USER_SUCCESS, REMOVE_USER_FAILED
+  REMOVE_USER_SUCCESS,
+  REMOVE_USER_FAILED,
+  FETCH_EMAILS_REQUEST,
+  FETCH_EMAILS_SUCCESS,
+  FETCH_EMAILS_FAILED
 } from "./action-types";
 import { get, put, post, remove } from "../utils/request";
 
@@ -246,4 +250,17 @@ export const addCourse = dispatch => async (course) => {
 
 export const clearEducationError = dispatch => () => {
   dispatch({ type: CLEAR_EDUCATION_ERROR });
+};
+
+
+/** MAIL ACTIONS **/
+
+export const fetchEmails = dispatch => async () => {
+  dispatch({ type: FETCH_EMAILS_REQUEST });
+  try {
+    const response = await get(`/email`);
+    dispatch({ type: FETCH_EMAILS_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: FETCH_EMAILS_FAILED, payload: e })
+  }
 };
