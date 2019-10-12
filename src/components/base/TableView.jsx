@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import 'styled-components/macro'
 import Button from "./Button";
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export default function ({ columns, rows, title, styles, onAdd }) {
@@ -8,8 +10,16 @@ export default function ({ columns, rows, title, styles, onAdd }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  let records = rows.slice((currentPage-1) * rowsPerPage, (currentPage-1) * rowsPerPage + rowsPerPage);
-  let pageNumbers = new Array(Math.ceil(rows.length / rowsPerPage)).fill(0);
+  const nPages = rows.length / rowsPerPage;
+
+  let records = rows.slice(
+    (currentPage-1) * rowsPerPage,
+    (currentPage-1) * rowsPerPage + rowsPerPage
+  );
+  let pageNumbers = new Array(Math.ceil(nPages))
+    .fill(0)
+    .map((ele, i) => i + 1)
+    .slice(currentPage < 2 ? 0 : currentPage - 2, currentPage < 2 ? 2 : currentPage + 1);
 
   return (
     <div
@@ -24,7 +34,7 @@ export default function ({ columns, rows, title, styles, onAdd }) {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          margin: 20px 0;
+          margin-bottom: 20px;
         `}>
         <h1 css={`padding: 0; margin: 0;`}>{title}</h1>
         <Button title={`ADD ${title.toUpperCase()}`} onClick={() => onAdd()} />
@@ -80,14 +90,26 @@ export default function ({ columns, rows, title, styles, onAdd }) {
             display: flex;
             justify-content: center;
           `}>
-          {pageNumbers.map((ele, index) => (
+          <ColumnArrow
+            onClick={() => setCurrentPage(
+              currentPage > 1 ? currentPage-1 : 1
+            )}
+            direction={'left'}
+          />
+          {pageNumbers.map((n, index) => (
             <PageNumber
-              pageNumber={index+1}
+              pageNumber={n}
               onClick={n => setCurrentPage(n)}
-              selected={index+1 === currentPage}
+              selected={n === currentPage}
             />
             )
           )}
+          <ColumnArrow
+            onClick={() => setCurrentPage(
+              currentPage === nPages ? currentPage : currentPage+1
+            )}
+            direction={'right'}
+          />
         </div>
         <div
           css={`
@@ -100,6 +122,29 @@ export default function ({ columns, rows, title, styles, onAdd }) {
         </div>
       </div>
     </div>
+  )
+}
+
+function ColumnArrow ({ direction, onClick }) {
+  return (
+    <button
+      css={`
+        background: 'red';
+        cursor: pointer;
+        outline: none;
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #FFFF;
+        margin: 10px;
+      `}
+      onClick={() => onClick()}>
+      {direction === 'left' ?
+        <FontAwesomeIcon icon={faArrowLeft} /> :
+        <FontAwesomeIcon icon={faArrowRight} />
+      }
+    </button>
   )
 }
 

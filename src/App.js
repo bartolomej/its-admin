@@ -13,6 +13,7 @@ import CourseEditor from "./screens/forms/CourseEditor";
 import TopBar from './components/TopBar';
 import CategoryForm from "./screens/forms/CategoryEditor";
 import SubcategoryForm from "./screens/forms/SubcategoryEditor";
+import Projects from "./screens/Projects";
 
 
 const sidebarRoutes = [
@@ -39,7 +40,7 @@ const sidebarRoutes = [
     path: "/project",
     title: 'PROJECTS',
     image: <FontAwesomeIcon icon={faToolbox} />,
-    main: () => <h2>Projects screen</h2>
+    main: Projects
   },
 ];
 
@@ -58,6 +59,22 @@ const otherRoutes = [
   },
   {
     path: "/course/:uid",
+    main: CourseEditor
+  },
+  {
+    path: "/add_user",
+    main: UserForm
+  },
+  {
+    path: "/add_category",
+    main: CategoryForm
+  },
+  {
+    path: "/add_subcategory",
+    main: SubcategoryForm
+  },
+  {
+    path: "/add_course",
     main: CourseEditor
   }
 ];

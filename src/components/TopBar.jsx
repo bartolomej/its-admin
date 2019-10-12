@@ -2,23 +2,10 @@ import React from 'react';
 import 'styled-components/macro'
 import { faBell, faSearch, faUserAstronaut, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 
-/**
- * <Link
- css={`
-            color: inherit;
-            text-decoration: none
-          `}
- to={{pathname: `/user/`,}}
- >
- <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft} />
- </Link>
- */
 
 export default withRouter(({ history }) => {
-  console.log(history);
   return (
     <div
       css={`

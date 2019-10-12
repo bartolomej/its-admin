@@ -1,4 +1,12 @@
 import {
+  ADD_CATEGORY_FAILED,
+  ADD_CATEGORY_REQUEST, ADD_CATEGORY_SUCCESS,
+  ADD_COURSE_FAILED,
+  ADD_COURSE_REQUEST,
+  ADD_COURSE_SUCCESS,
+  ADD_SUBCATEGORY_FAILED,
+  ADD_SUBCATEGORY_REQUEST,
+  ADD_SUBCATEGORY_SUCCESS,
   FETCH_CATEGORIES_FAILED,
   FETCH_CATEGORIES_REQUEST,
   FETCH_CATEGORIES_SUCCESS,
@@ -100,6 +108,23 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
+    case ADD_CATEGORY_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ADD_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        categories: [...state.categories, action.payload]
+      };
+    case ADD_CATEGORY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
     case UPDATE_SUBCATEGORY_REQUEST:
       return {
         ...state,
@@ -119,6 +144,23 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
+    case ADD_SUBCATEGORY_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ADD_SUBCATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        subcategories: [...state.subcategories, action.payload]
+      };
+    case ADD_SUBCATEGORY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
     case UPDATE_COURSE_REQUEST:
       return {
         ...state,
@@ -133,6 +175,23 @@ export default function (state = initialState, action) {
         ))
       };
     case UPDATE_COURSE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case ADD_COURSE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case ADD_COURSE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        courses: [...state.courses, action.payload]
+      };
+    case ADD_COURSE_FAILED:
       return {
         ...state,
         loading: false,

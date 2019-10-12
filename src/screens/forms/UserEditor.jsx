@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
-import InputField from "../../components/base/InputField";
+import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import { updateUser } from "../../redux/actions";
+import { addUser, updateUser } from "../../redux/actions";
 
 
 class UserEditor extends Component {
@@ -11,34 +11,42 @@ class UserEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uid: null,
-      username: null,
-      birthDate: null,
-      email: null,
-      website: null,
-      interests: null,
-      createdDate: null,
-      deactivatedDate: null,
-      status: null,
-      avatar: null
+      mode: '',
+      user: {
+        uid: '',
+        username: '',
+        birthDate: '',
+        email: '',
+        website: '',
+        interests: '',
+        createdDate: '',
+        deactivatedDate: '',
+        status: '',
+        avatar: ''
+      }
     };
   }
 
   componentDidMount() {
     const userUid = this.props.match.params.uid;
     const user = selectUser(this.props.users, userUid);
-    this.setState({
-      uid: user.uid,
-      username: user.username,
-      birthDate: user.birthDate,
-      email: user.email,
-      website: user.website,
-      interests: user.interests,
-      createdDate: user.createdDate,
-      deactivatedDate: user.deactivatedDate,
-      status: user.status,
-      avatar: user.avatar
-    })
+    if (userUid !== undefined) {
+      this.setUserState({
+        uid: user.uid,
+        username: user.username,
+        birthDate: user.birthDate,
+        email: user.email,
+        website: user.website,
+        interests: user.interests,
+        createdDate: user.createdDate,
+        deactivatedDate: user.deactivatedDate,
+        status: user.status,
+        avatar: user.avatar
+      });
+      this.setState({ mode: 'UPDATE' });
+    } else {
+      this.setState({ mode: 'ADD' });
+    }
   }
 
   render() {
@@ -56,51 +64,74 @@ class UserEditor extends Component {
             flex: 0.5;
             flex-direction: column;
           `}>
-          <InputField
-            description={'UID'}
-            value={this.state.uid}
-            disable
-          />
+          {this.state.mode === 'UPDATE' && (
+            <InputField
+              description={'UID'}
+              value={this.state.user.uid}
+              disable
+            />
+          )}
           <InputField
             description={'Username'}
-            onInput={username => this.setState({ username })}
-            value={this.state.username}
+            onInput={username => this.setUserState({ username })}
+            value={this.state.user.username}
           />
           <InputField
             description={'Email'}
-            onInput={email => this.setState({ email })}
-            value={this.state.email}
+            onInput={email => this.setUserState({ email })}
+            value={this.state.user.email}
           />
           <InputField
             description={'Website'}
-            onInput={website => this.setState({ website })}
-            value={this.state.website}
+            onInput={website => this.setUserState({ website })}
+            value={this.state.user.website}
+          />
+          <InputField
+            description={'Interests'}
+            onInput={interests => this.setUserState({ interests: interests.split(', ') })}
+            value={this.state.user.interests instanceof Array ?
+              this.state.user.interests.join(', ') : ''
+            }
           />
           <InputField
             description={'Birth date'}
-            onInput={birthDate => this.setState({ birthDate })}
-            value={this.state.birthDate}
+            onInput={birthDate => this.setUserState({ birthDate })}
+            value={this.state.user.birthDate}
           />
           <InputField
             description={'Joined'}
-            onInput={createdDate => this.setState({ createdDate })}
-            value={this.state.createdDate}
+            onInput={createdDate => this.setUserState({ createdDate })}
+            value={this.state.user.createdDate}
           />
           <InputField
             description={'Status'}
-            onInput={status => this.setState({ status })}
-            value={this.state.status}
+            onInput={status => this.setUserState({ status })}
+            value={this.state.user.status}
           />
           <Button
             style={``}
-            title={'UPDATE'}
+            title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}
             onClick={async () => {
-              await updateUser(this.props.dispatch)(this.state);
+              if (this.state.mode === 'ADD') {
+                await addUser(this.props.dispatch)(this.state.user);
+              } else {
+                await updateUser(this.props.dispatch)(this.state.user);
+              }
             }}
           />
         </div>
       </div>
     )
+  }
+
+  setUserState = props => {
+    let user = this.state.user;
+    for (let key in props) {
+      if (props.hasOwnProperty(key)) {
+        user[key] = props[key];
+      }
+    }
+    this.setState({ user })
   }
 
 }

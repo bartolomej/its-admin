@@ -3,8 +3,8 @@ import 'styled-components/macro'
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {far} from "@fortawesome/free-regular-svg-icons";
-import {Link} from "react-router-dom";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
 import TableCard from "./base/TableCard";
 
 

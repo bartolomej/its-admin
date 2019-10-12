@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
-import InputField from "../../components/base/InputField";
+import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import { updateSubcategory } from "../../redux/actions";
+import {addSubcategory, updateSubcategory} from "../../redux/actions";
+import OptionInput from "../../components/base/OptionInput";
 
 
 class UserForm extends Component {
@@ -11,22 +12,30 @@ class UserForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uid: null,
-      name: null,
-      description: null,
-      category: null
+      mode: '',
+      subcategory: {
+        uid: '',
+        name: '',
+        description: '',
+        category: ''
+      }
     };
   }
 
   componentDidMount() {
     const subcategoryUid = this.props.match.params.uid;
     const subcategory = selectCategory(this.props.subcategories, subcategoryUid);
-    this.setState({
-      uid: subcategory.uid,
-      name: subcategory.name,
-      description: subcategory.description,
-      category: subcategory.category
-    })
+    if (subcategoryUid !== undefined) {
+      this.setSubcategoryState({
+        uid: subcategory.uid,
+        name: subcategory.name,
+        description: subcategory.description,
+        category: subcategory.category
+      });
+      this.setState({ mode: 'UPDATE' });
+    } else {
+      this.setState({ mode: 'ADD' });
+    }
   }
 
   render() {
@@ -44,36 +53,52 @@ class UserForm extends Component {
             flex: 0.5;
             flex-direction: column;
           `}>
-          <InputField
-            description={'UID'}
-            value={this.state.uid}
-            disable
-          />
+          {this.state.mode === 'UPDATE' && (
+            <InputField
+              description={'UID'}
+              value={this.state.subcategory.uid}
+              disable
+            />
+          )}
           <InputField
             description={'Name'}
-            onInput={name => this.setState({ name })}
-            value={this.state.name}
+            onInput={name => this.setSubcategoryState({ name })}
+            value={this.state.subcategory.name}
           />
           <InputField
             description={'Description'}
-            onInput={description => this.setState({ description })}
-            value={this.state.description}
+            onInput={description => this.setSubcategoryState({ description })}
+            value={this.state.subcategory.description}
           />
-          <InputField
-            description={'Category'}
-            onInput={category => this.setState({ category })}
-            value={this.state.category}
+          <OptionInput
+            onChange={uid => this.setSubcategoryState({ category: uid })}
+            value={this.state.subcategory.category}
+            options={this.props.categories.map(c => ({ value: c.uid, name: c.name }))}
           />
           <Button
             style={``}
-            title={'UPDATE'}
+            title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}
             onClick={async () => {
-              await updateSubcategory(this.props.dispatch)(this.state)
+              if (this.state.mode === 'UPDATE') {
+                await updateSubcategory(this.props.dispatch)(this.state.subcategory)
+              } else {
+                await addSubcategory(this.props.dispatch)(this.state.subcategory)
+              }
             }}
           />
         </div>
       </div>
     )
+  }
+
+  setSubcategoryState = props => {
+    let subcategory = this.state.subcategory;
+    for (let key in props) {
+      if (props.hasOwnProperty(key)) {
+        subcategory[key] = props[key];
+      }
+    }
+    this.setState({ subcategory })
   }
 
 }
@@ -84,7 +109,8 @@ function selectCategory (categories, uid) {
 }
 
 export default connect(state => ({
-  isLoading: state.course.isLoading,
-  error: state.course.error,
-  subcategories: state.course.subcategories,
+  isLoading: state.education.isLoading,
+  error: state.education.error,
+  subcategories: state.education.subcategories,
+  categories: state.education.categories
 }))(UserForm);

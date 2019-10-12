@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 import { fetchCategories, fetchSubcategories, fetchCourses } from "../redux/actions";
 import 'styled-components/macro'
 import TableView from "../components/base/TableView";
@@ -8,29 +9,34 @@ import SubcategoryCard from "../components/SubcategoryCard";
 import CourseCard from "../components/CourseCard";
 
 
-class Users extends Component {
+class Courses extends Component {
 
   constructor(props) {
     super(props);
+    this.props = props;
   }
 
-  async componentDidMount() {
-    await Promise.all([
-      await fetchCategories(this.props.dispatch)(),
-      await fetchSubcategories(this.props.dispatch)(),
-      await fetchCourses(this.props.dispatch)()
-    ]);
-  }
+  componentDidMount = async () => {
+    if (
+      this.props.courses.length === 0 ||
+      this.props.categories.length === 0 ||
+      this.props.subcategories.length === 0
+    ) {
+      await Promise.all([
+        await fetchCategories(this.props.dispatch)(),
+        await fetchSubcategories(this.props.dispatch)(),
+        await fetchCourses(this.props.dispatch)()
+      ]);
+    }
+  };
 
   render() {
     return (
       <div css={`
-        flex: 6;
-        display: flex;
-        flex-direction: column;
-        margin: 50px 80px;
+        margin: 40px 80px;
       `}>
         <TableView
+          onAdd={() => this.props.history.push('/add_category')}
           title={'Categories'}
           columns={[
             {title: '', flex: 0.5},
@@ -51,6 +57,7 @@ class Users extends Component {
           }
         />
         <TableView
+          onAdd={() => this.props.history.push('/add_subcategory')}
           styles={`margin-top: 30px;`}
           title={'Subcategories'}
           columns={[
@@ -72,6 +79,7 @@ class Users extends Component {
           }
         />
         <TableView
+          onAdd={() => this.props.history.push('/add_course')}
           styles={`margin-top: 30px;`}
           title={'Courses'}
           columns={[
@@ -100,9 +108,9 @@ class Users extends Component {
 }
 
 export default connect(state => ({
-  isLoading: state.course.isLoading,
-  error: state.course.error,
-  categories: state.course.categories,
-  subcategories: state.course.subcategories,
-  courses: state.course.courses,
-}))(Users);
+  isLoading: state.education.isLoading,
+  error: state.education.error,
+  categories: state.education.categories,
+  subcategories: state.education.subcategories,
+  courses: state.education.courses,
+}))(withRouter(Courses));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { fetchUsers, addUser } from "../redux/actions";
+import { withRouter } from 'react-router-dom'
+import { fetchUsers } from "../redux/actions";
 import 'styled-components/macro'
 import UserCard from "../components/UserCard";
 import TableView from "../components/base/TableView";
@@ -13,11 +14,11 @@ class Users extends Component {
     this.state = {};
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     if (this.props.users.length === 0) {
       await fetchUsers(this.props.dispatch)();
     }
-  }
+  };
 
   render() {
     return (
@@ -25,11 +26,11 @@ class Users extends Component {
         flex: 6;
         display: flex;
         flex-direction: column;
-        margin: 50px 80px;
+        margin: 40px 80px;
       `}>
         <TableView
-          title={'User'}
-          onAdd={async () => await addUser(this.props.dispatch)(this.state)}
+          title={'Users'}
+          onAdd={() => this.props.history.push('/add_user')}
           columns={[
             {title: '', flex: 0.5},
             {title: 'username', flex: 0.5},
@@ -55,13 +56,14 @@ class Users extends Component {
           }
         />
       </div>
-    )
+    );
   }
 
 }
+
 
 export default connect(state => ({
   isLoading: state.user.isLoading,
   error: state.user.error,
   users: state.user.users,
-}))(Users);
+}))(withRouter(Users));
