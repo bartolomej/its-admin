@@ -73,6 +73,9 @@ export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
         css={`
           flex: 2;
         `}>
+        {rows.length === 0 && (
+          <p css={`text-align: center;`}>No data</p>
+        )}
         {records}
       </div>
       <div

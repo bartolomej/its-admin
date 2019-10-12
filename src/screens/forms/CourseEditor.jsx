@@ -6,10 +6,12 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 import { withAlert } from 'react-alert'
 import Button from "../../components/base/Button";
 import InputField from "../../components/base/TexInput";
-import {addCourse, deleteCategory, deleteCourse, updateCourse} from "../../redux/actions";
+import {addCourse, deleteCourse, updateCourse} from "../../redux/actions";
+import { onAction } from 'redux-action-watch/lib/actionCreators';
 import { connect } from "react-redux";
 import { getCourse } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
+import { UPDATE_COURSE_SUCCESS } from "../../redux/action-types";
 
 
 const converter = new Showdown.Converter({
@@ -63,16 +65,19 @@ class CourseEditor extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
-    this.registerErrorListener();
+    this.registerListeners();
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  registerErrorListener = () => {
+  registerListeners = () => {
     this.unsubscribe = subscribe('education.error', state => {
       this.props.alert.error(state.education.error.message);
+    });
+    this.props.onAction(UPDATE_COURSE_SUCCESS, action => {
+      this.props.alert.info('Successfully updated course');
     });
   };
 
@@ -176,4 +181,7 @@ export default connect(state => ({
   error: state.education.error,
   courses: state.education.courses,
   subcategories: state.education.subcategories
+}), dispatch => ({
+  onAction: onAction(dispatch),
+  dispatch
 }))(withAlert()(CourseEditor));

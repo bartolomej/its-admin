@@ -7,6 +7,8 @@ import Button from "../../components/base/Button";
 import { addCategory, updateCategory, deleteCategory } from "../../redux/actions";
 import { getCategory } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
+import { onAction } from 'redux-action-watch/lib/actionCreators';
+import { UPDATE_CATEGORY_SUCCESS } from "../../redux/action-types";
 
 
 class UserForm extends Component {
@@ -36,16 +38,19 @@ class UserForm extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
-    this.registerErrorListener();
+    this.registerListeners();
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  registerErrorListener = () => {
+  registerListeners = () => {
     this.unsubscribe = subscribe('education.error', state => {
       this.props.alert.error(state.education.error.message);
+    });
+    this.props.onAction(UPDATE_CATEGORY_SUCCESS, action => {
+      this.props.alert.info('Successfully updated category');
     });
   };
 
@@ -122,4 +127,7 @@ export default connect(state => ({
   isLoading: state.education.isLoading,
   error: state.education.error,
   categories: state.education.categories,
+}), dispatch => ({
+  onAction: onAction(dispatch),
+  dispatch
 }))(withAlert()(UserForm));

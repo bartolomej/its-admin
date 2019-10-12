@@ -6,13 +6,14 @@ import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
 import {
   addSubcategory,
-  deleteCategory,
   deleteSubcategory,
   updateSubcategory
 } from "../../redux/actions";
 import OptionInput from "../../components/base/OptionInput";
 import { getSubcategory } from "../../redux/selectors";
 import {subscribe} from "redux-subscriber";
+import { onAction } from 'redux-action-watch/lib/actionCreators';
+import { UPDATE_SUBCATEGORY_SUCCESS } from "../../redux/action-types";
 
 
 class UserForm extends Component {
@@ -44,16 +45,19 @@ class UserForm extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
-    this.registerErrorListener();
+    this.registerListeners();
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  registerErrorListener = () => {
+  registerListeners = () => {
     this.unsubscribe = subscribe('education.error', state => {
       this.props.alert.error(state.education.error.message);
+    });
+    this.props.onAction(UPDATE_SUBCATEGORY_SUCCESS, action => {
+      this.props.alert.info('Successfully updated subcategory');
     });
   };
 
@@ -136,4 +140,7 @@ export default connect(state => ({
   error: state.education.error,
   subcategories: state.education.subcategories,
   categories: state.education.categories
+}), dispatch => ({
+  onAction: onAction(dispatch),
+  dispatch
 }))(withAlert()(UserForm));

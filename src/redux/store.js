@@ -1,12 +1,18 @@
-import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./reducers";
+import {createStore, applyMiddleware, combineReducers} from "redux";
 import logger from 'redux-logger'
 import initSubscriber from 'redux-subscriber';
+import actionWatchReducer from 'redux-action-watch/lib/reducer';
+import actionWatchMiddlewareGenerator from 'redux-action-watch/lib/middleware';
 
+import user from './reducers/user';
+import education from './reducers/education';
+
+
+const actionWatchMiddleware = actionWatchMiddlewareGenerator('watcher');
 
 const store = createStore(
-  rootReducer,
-  applyMiddleware(logger)
+  combineReducers({watcher: actionWatchReducer, user, education}),
+  applyMiddleware(logger, actionWatchMiddleware)
 );
 
 initSubscriber(store);

@@ -1,15 +1,13 @@
 # ITS admin app
 
 
-### Color schemas
+## Setup
 
-```css
-#1C1D24
-#EA2340
-#P5EEE6
-#FFFFFF
-```
-
+To install and work on ITS run:
+1. `git clone https://github.com/bartolomej/its-admin`
+2. `cd its-server`
+1. `npm install` - installs all external libraries
+2. `npm start` - starts app in development mode
 
 ## Available Scripts
 
@@ -37,3 +35,7 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## Links
+- [react-icons](https://react-icons.netlify.com/#/icons/md)
+- [react-spinners](https://www.react-spinners.com/)

@@ -4,9 +4,11 @@ import 'styled-components/macro';
 import { withAlert } from 'react-alert';
 import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import {addUser, deleteCategory, deleteUser, updateUser} from "../../redux/actions";
+import { addUser, deleteUser, updateUser } from "../../redux/actions";
 import { getUser } from "../../redux/selectors";
-import {subscribe} from "redux-subscriber";
+import { subscribe } from "redux-subscriber";
+import { onAction } from 'redux-action-watch/lib/actionCreators';
+import {UPDATE_USER_SUCCESS} from "../../redux/action-types";
 
 
 class UserEditor extends Component {
@@ -50,16 +52,19 @@ class UserEditor extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
-    this.registerErrorListener();
+    this.registerListeners();
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  registerErrorListener = () => {
+  registerListeners = () => {
     this.unsubscribe = subscribe('user.error', state => {
       this.props.alert.error(state.user.error.message);
+    });
+    this.props.onAction(UPDATE_USER_SUCCESS, action => {
+      this.props.alert.info('Successfully updated user');
     });
   };
 
@@ -163,4 +168,7 @@ export default connect(state => ({
   loading: state.user.loading,
   error: state.user.error,
   users: state.user.users,
+}), dispatch => ({
+  onAction: onAction(dispatch),
+  dispatch
 }))(withAlert()(UserEditor));
