@@ -26,13 +26,13 @@ export default function ({ uid, title, description, image, tags, created }) {
           flex: 1;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{description}</span>
+        `}>{description.substring(0, 20) + "..."}</span>
       <span
         css={`
           flex: 1;
           font-weight: 700; 
           font-size: 14px; 
-        `}>{tags}</span>
+        `}>{tags.slice(0, 2).join(', ') + ",..."}</span>
       <span
         css={`
           flex: 0.5;

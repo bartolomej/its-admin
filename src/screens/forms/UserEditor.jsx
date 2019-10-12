@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import 'styled-components/macro'
+import 'styled-components/macro';
+import { withAlert } from 'react-alert';
 import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
 import { addUser, updateUser } from "../../redux/actions";
+import { getUser } from "../../redux/selectors";
+import {subscribe} from "redux-subscriber";
 
 
 class UserEditor extends Component {
@@ -29,7 +32,7 @@ class UserEditor extends Component {
 
   componentDidMount() {
     const userUid = this.props.match.params.uid;
-    const user = selectUser(this.props.users, userUid);
+    const user = getUser(this.props.users, userUid);
     if (userUid !== undefined) {
       this.setUserState({
         uid: user.uid,
@@ -47,7 +50,18 @@ class UserEditor extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
+    this.registerErrorListener();
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  registerErrorListener = () => {
+    this.unsubscribe = subscribe('user.error', state => {
+      this.props.alert.error(state.user.error.message);
+    });
+  };
 
   render() {
     return (
@@ -109,7 +123,7 @@ class UserEditor extends Component {
             value={this.state.user.status}
           />
           <Button
-            style={``}
+            isLoading={this.props.loading}
             title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}
             onClick={async () => {
               if (this.state.mode === 'ADD') {
@@ -136,13 +150,8 @@ class UserEditor extends Component {
 
 }
 
-function selectUser (users, uid) {
-  let user = users.filter(u => u.uid === uid);
-  return user[0];
-}
-
 export default connect(state => ({
-  isLoading: state.user.isLoading,
+  loading: state.user.loading,
   error: state.user.error,
   users: state.user.users,
-}))(UserEditor);
+}))(withAlert()(UserEditor));

@@ -29,6 +29,7 @@ class Users extends Component {
         margin: 40px 80px;
       `}>
         <TableView
+          isLoading={this.props.loading}
           title={'Users'}
           onAdd={() => this.props.history.push('/add_user')}
           columns={[
@@ -63,7 +64,7 @@ class Users extends Component {
 
 
 export default connect(state => ({
-  isLoading: state.user.isLoading,
+  loading: state.user.loading,
   error: state.user.error,
   users: state.user.users,
 }))(withRouter(Users));

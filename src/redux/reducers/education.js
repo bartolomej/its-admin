@@ -6,7 +6,7 @@ import {
   ADD_COURSE_SUCCESS,
   ADD_SUBCATEGORY_FAILED,
   ADD_SUBCATEGORY_REQUEST,
-  ADD_SUBCATEGORY_SUCCESS,
+  ADD_SUBCATEGORY_SUCCESS, CLEAR_EDUCATION_ERROR,
   FETCH_CATEGORIES_FAILED,
   FETCH_CATEGORIES_REQUEST,
   FETCH_CATEGORIES_SUCCESS,
@@ -38,6 +38,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_EDUCATION_ERROR:
+      return {
+        ...state,
+        error: null
+      };
     case FETCH_CATEGORIES_REQUEST:
       return {
         ...state,
@@ -80,7 +85,7 @@ export default function (state = initialState, action) {
     case FETCH_COURSES_SUCCESS:
       return {
         ...state,
-        loading: true,
+        loading: false,
         courses: action.payload
       };
     case FETCH_COURSES_FAILED:

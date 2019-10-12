@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import 'styled-components/macro'
+import 'styled-components/macro';
+import { withAlert } from 'react-alert';
 import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import {addSubcategory, updateSubcategory} from "../../redux/actions";
+import { addSubcategory, updateSubcategory } from "../../redux/actions";
 import OptionInput from "../../components/base/OptionInput";
+import { getSubcategory } from "../../redux/selectors";
+import {subscribe} from "redux-subscriber";
 
 
 class UserForm extends Component {
@@ -24,7 +27,7 @@ class UserForm extends Component {
 
   componentDidMount() {
     const subcategoryUid = this.props.match.params.uid;
-    const subcategory = selectCategory(this.props.subcategories, subcategoryUid);
+    const subcategory = getSubcategory(this.props.subcategories, subcategoryUid);
     if (subcategoryUid !== undefined) {
       this.setSubcategoryState({
         uid: subcategory.uid,
@@ -36,7 +39,18 @@ class UserForm extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
+    this.registerErrorListener();
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  registerErrorListener = () => {
+    this.unsubscribe = subscribe('education.error', state => {
+      this.props.alert.error(state.education.error.message);
+    });
+  };
 
   render() {
     return (
@@ -103,14 +117,9 @@ class UserForm extends Component {
 
 }
 
-function selectCategory (categories, uid) {
-  let c = categories.filter(u => u.uid === uid);
-  return c[0];
-}
-
 export default connect(state => ({
   isLoading: state.education.isLoading,
   error: state.education.error,
   subcategories: state.education.subcategories,
   categories: state.education.categories
-}))(UserForm);
+}))(withAlert()(UserForm));

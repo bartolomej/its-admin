@@ -4,7 +4,7 @@ import {
   FETCH_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILED, ADD_USER_REQUEST, ADD_USER_SUCCESS, ADD_USER_FAILED,
+  UPDATE_USER_FAILED, ADD_USER_REQUEST, ADD_USER_SUCCESS, ADD_USER_FAILED, CLEAR_USER_ERROR,
 } from '../action-types';
 
 const initialState = {
@@ -15,6 +15,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_USER_ERROR:
+      return {
+        ...state,
+        error: null
+      };
     case FETCH_USER_REQUEST:
       return {
         ...state,
@@ -40,6 +45,7 @@ export default function (state = initialState, action) {
     case UPDATE_USER_SUCCESS:
       return {
         ...state,
+        loading: false,
         users: state.users.map(user => (
           user.uid === action.payload.uid
             ? action.payload : user

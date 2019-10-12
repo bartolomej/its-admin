@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import 'styled-components/macro'
+import 'styled-components/macro';
+import { withAlert } from 'react-alert';
 import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import { updateCategory } from "../../redux/actions";
+import {addCategory, updateCategory} from "../../redux/actions";
+import { getCategory } from "../../redux/selectors";
+import {subscribe} from "redux-subscriber";
 
 
 class UserForm extends Component {
@@ -22,7 +25,7 @@ class UserForm extends Component {
 
   componentDidMount() {
     const categoryUid = this.props.match.params.uid;
-    const category = selectCategory(this.props.categories, categoryUid);
+    const category = getCategory(this.props.categories, categoryUid);
     if (categoryUid !== undefined) {
       this.setCategoryState({
         uid: category.uid,
@@ -33,7 +36,18 @@ class UserForm extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
+    this.registerErrorListener();
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  registerErrorListener = () => {
+    this.unsubscribe = subscribe('education.error', state => {
+      this.props.alert.error(state.education.error.message);
+    });
+  };
 
   render() {
     return (
@@ -74,7 +88,7 @@ class UserForm extends Component {
               if (this.state.mode === 'UPDATE') {
                 await updateCategory(this.props.dispatch)(this.state.category);
               } else {
-                await updateCategory(this.props.dispatch)(this.state.category);
+                await addCategory(this.props.dispatch)(this.state.category);
               }
             }}
           />
@@ -95,13 +109,8 @@ class UserForm extends Component {
 
 }
 
-function selectCategory (categories, uid) {
-  let c = categories.filter(u => u.uid === uid);
-  return c[0];
-}
-
 export default connect(state => ({
   isLoading: state.education.isLoading,
   error: state.education.error,
   categories: state.education.categories,
-}))(UserForm);
+}))(withAlert()(UserForm));

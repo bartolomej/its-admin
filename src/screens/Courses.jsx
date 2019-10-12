@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { fetchCategories, fetchSubcategories, fetchCourses } from "../redux/actions";
-import 'styled-components/macro'
+import 'styled-components/macro';
 import TableView from "../components/base/TableView";
 import CategoryCard from "../components/CategoryCard";
 import SubcategoryCard from "../components/SubcategoryCard";
 import CourseCard from "../components/CourseCard";
+import {subscribe} from "redux-subscriber";
 
 
 class Courses extends Component {
@@ -28,6 +29,17 @@ class Courses extends Component {
         await fetchCourses(this.props.dispatch)()
       ]);
     }
+    this.registerErrorListener();
+  };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  registerErrorListener = () => {
+    this.unsubscribe = subscribe('education.error', state => {
+      this.props.alert.error(state.education.error.message);
+    });
   };
 
   render() {
@@ -36,6 +48,7 @@ class Courses extends Component {
         margin: 40px 80px;
       `}>
         <TableView
+          isLoading={this.props.loading}
           onAdd={() => this.props.history.push('/add_category')}
           title={'Categories'}
           columns={[
@@ -57,6 +70,7 @@ class Courses extends Component {
           }
         />
         <TableView
+          isLoading={this.props.loading}
           onAdd={() => this.props.history.push('/add_subcategory')}
           styles={`margin-top: 30px;`}
           title={'Subcategories'}
@@ -79,6 +93,7 @@ class Courses extends Component {
           }
         />
         <TableView
+          isLoading={this.props.loading}
           onAdd={() => this.props.history.push('/add_course')}
           styles={`margin-top: 30px;`}
           title={'Courses'}
@@ -108,7 +123,7 @@ class Courses extends Component {
 }
 
 export default connect(state => ({
-  isLoading: state.education.isLoading,
+  loading: state.education.loading,
   error: state.education.error,
   categories: state.education.categories,
   subcategories: state.education.subcategories,

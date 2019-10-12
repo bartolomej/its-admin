@@ -1,11 +1,15 @@
 import React from 'react';
 import 'styled-components/macro'
+import { BeatLoader } from "react-spinners";
 
 
-export default function ({ title, onClick, style }) {
+export default function ({ title, onClick, style, isLoading }) {
   return (
     <button
       css={`
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background: none;
         border: 1px solid black;
         cursor: pointer;
@@ -26,7 +30,15 @@ export default function ({ title, onClick, style }) {
     `}
       onClick={() => onClick()}
     >
-      { title }
+      { !isLoading && title }
+      {isLoading && (
+        <BeatLoader
+          sizeUnit={"px"}
+          size={10}
+          color={'#ef4c48'}
+          loading={isLoading}
+        />
+      )}
     </button>
   )
 }

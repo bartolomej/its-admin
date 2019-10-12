@@ -1,3 +1,5 @@
+import DomainError from "./DomainError";
+
 const host = 'http://localhost:3000';
 
 
@@ -9,6 +11,7 @@ export async function put(url = '', data = {}) {
     },
     body: JSON.stringify(data)
   });
+  await validateErrors(response);
   return await response.json();
 }
 
@@ -20,6 +23,7 @@ export async function post(url = '', data = {}) {
     },
     body: JSON.stringify(data)
   });
+  await validateErrors(response);
   return await response.json();
 }
 
@@ -30,5 +34,17 @@ export async function get(url) {
       'Content-Type': 'application/json'
     },
   });
+  await validateErrors(response);
   return await response.json();
+}
+
+async function validateErrors(response) {
+  if (response.status >= 400) {
+    let resError = await response.json();
+    throw new DomainError(
+      resError.name,
+      resError.message,
+      resError.description
+    );
+  }
 }

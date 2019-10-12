@@ -3,9 +3,10 @@ import 'styled-components/macro'
 import Button from "./Button";
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {BarLoader} from "react-spinners";
 
 
-export default function ({ columns, rows, title, styles, onAdd }) {
+export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -45,8 +46,20 @@ export default function ({ columns, rows, title, styles, onAdd }) {
           flex-direction: row;
           flex: 10;
           margin: 2px;
+          ${isLoading ? `
+            align-items: center;
+            justify-content: center;
+          ` : ''}
         `}>
-        {columns.map(col => {
+        {isLoading && (
+          <BarLoader
+            sizeUnit={"px"}
+            size={30}
+            color={'#ef4c48'}
+            loading={isLoading}
+          />
+        )}
+        {!isLoading && columns.map(col => {
           const isObj = () => col instanceof Object;
           return (
             <ColumnHeader

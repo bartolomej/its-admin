@@ -36,9 +36,9 @@ import {
   ADD_SUBCATEGORY_SUCCESS,
   ADD_SUBCATEGORY_FAILED,
   ADD_COURSE_REQUEST,
-  ADD_COURSE_SUCCESS, ADD_COURSE_FAILED
+  ADD_COURSE_SUCCESS, ADD_COURSE_FAILED, CLEAR_USER_ERROR, CLEAR_EDUCATION_ERROR
 } from "./action-types";
-import { get, put, post } from "./request";
+import { get, put, post } from "../utils/request";
 
 
 /** USER ACTIONS **/
@@ -81,6 +81,10 @@ export const fetchProfile = dispatch => async (uid) => {
   } catch (e) {
     dispatch({ type: FETCH_PROFILE_FAILED, payload: e })
   }
+};
+
+export const clearUserError = dispatch => () => {
+  dispatch({ type: CLEAR_USER_ERROR });
 };
 
 
@@ -184,4 +188,8 @@ export const addCourse = dispatch => async (course) => {
   } catch (e) {
     dispatch({ type: ADD_COURSE_FAILED, payload: e })
   }
+};
+
+export const clearEducationError = dispatch => () => {
+  dispatch({ type: CLEAR_EDUCATION_ERROR });
 };

@@ -3,11 +3,13 @@ import ReactMde, { commands } from "react-mde";
 import * as Showdown from "showdown";
 import 'styled-components/macro'
 import "react-mde/lib/styles/css/react-mde-all.css";
+import { withAlert } from 'react-alert'
 import Button from "../../components/base/Button";
 import InputField from "../../components/base/TexInput";
-import {addCourse, updateCourse} from "../../redux/actions";
-import {connect} from "react-redux";
-import OptionInput from "../../components/base/OptionInput";
+import { addCourse, updateCourse } from "../../redux/actions";
+import { connect } from "react-redux";
+import { getCourse } from "../../redux/selectors";
+import { subscribe } from "redux-subscriber";
 
 
 const converter = new Showdown.Converter({
@@ -47,7 +49,7 @@ class CourseEditor extends Component {
 
   componentDidMount() {
     const courseUid = this.props.match.params.uid;
-    const course = selectCourse(this.props.courses, courseUid);
+    const course = getCourse(this.props.courses, courseUid);
     if (courseUid !== undefined) {
       this.setCourseState({
         uid: course.uid,
@@ -61,7 +63,18 @@ class CourseEditor extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
+    this.registerErrorListener();
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  registerErrorListener = () => {
+    this.unsubscribe = subscribe('education.error', state => {
+      this.props.alert.error(state.education.error.message);
+    });
+  };
 
   render() {
     return (
@@ -149,14 +162,9 @@ class CourseEditor extends Component {
 
 }
 
-function selectCourse (courses, uid) {
-  let c = courses.filter(u => u.uid === uid);
-  return c[0];
-}
-
 export default connect(state => ({
   isLoading: state.education.isLoading,
   error: state.education.error,
   courses: state.education.courses,
   subcategories: state.education.subcategories
-}))(CourseEditor);
+}))(withAlert()(CourseEditor));
