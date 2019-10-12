@@ -4,7 +4,7 @@ import 'styled-components/macro';
 import { withAlert } from 'react-alert';
 import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import { addUser, updateUser } from "../../redux/actions";
+import {addUser, deleteCategory, deleteUser, updateUser} from "../../redux/actions";
 import { getUser } from "../../redux/selectors";
 import {subscribe} from "redux-subscriber";
 
@@ -122,6 +122,15 @@ class UserEditor extends Component {
             onInput={status => this.setUserState({ status })}
             value={this.state.user.status}
           />
+          {this.state.mode === 'UPDATE' && (
+            <Button
+              isLoading={this.props.loading}
+              title={'REMOVE'}
+              onClick={async () => {
+                await deleteUser(this.props.dispatch)(this.state.user.uid);
+              }}
+            />
+          )}
           <Button
             isLoading={this.props.loading}
             title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}

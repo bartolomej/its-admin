@@ -4,7 +4,14 @@ import {
   FETCH_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILED, ADD_USER_REQUEST, ADD_USER_SUCCESS, ADD_USER_FAILED, CLEAR_USER_ERROR,
+  UPDATE_USER_FAILED,
+  ADD_USER_REQUEST,
+  ADD_USER_SUCCESS,
+  ADD_USER_FAILED,
+  CLEAR_USER_ERROR,
+  REMOVE_USER_REQUEST,
+  REMOVE_USER_SUCCESS,
+  REMOVE_USER_FAILED,
 } from '../action-types';
 
 const initialState = {
@@ -32,6 +39,23 @@ export default function (state = initialState, action) {
         users: action.payload
       };
     case FETCH_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case REMOVE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case REMOVE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: state.users.filter(c => c.uid !== action.payload)
+      };
+    case REMOVE_USER_FAILED:
       return {
         ...state,
         loading: false,

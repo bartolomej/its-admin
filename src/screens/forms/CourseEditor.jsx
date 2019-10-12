@@ -6,7 +6,7 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 import { withAlert } from 'react-alert'
 import Button from "../../components/base/Button";
 import InputField from "../../components/base/TexInput";
-import { addCourse, updateCourse } from "../../redux/actions";
+import {addCourse, deleteCategory, deleteCourse, updateCourse} from "../../redux/actions";
 import { connect } from "react-redux";
 import { getCourse } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
@@ -134,6 +134,15 @@ class CourseEditor extends Component {
               Promise.resolve(converter.makeHtml(markdown))
             }
           />
+          {this.state.mode === 'UPDATE' && (
+            <Button
+              isLoading={this.props.loading}
+              title={'REMOVE'}
+              onClick={async () => {
+                await deleteCourse(this.props.dispatch)(this.state.course.uid);
+              }}
+            />
+          )}
           <Button
             style={``}
             title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}

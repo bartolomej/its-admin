@@ -4,7 +4,12 @@ import 'styled-components/macro';
 import { withAlert } from 'react-alert';
 import InputField from "../../components/base/TexInput";
 import Button from "../../components/base/Button";
-import { addSubcategory, updateSubcategory } from "../../redux/actions";
+import {
+  addSubcategory,
+  deleteCategory,
+  deleteSubcategory,
+  updateSubcategory
+} from "../../redux/actions";
 import OptionInput from "../../components/base/OptionInput";
 import { getSubcategory } from "../../redux/selectors";
 import {subscribe} from "redux-subscriber";
@@ -89,8 +94,17 @@ class UserForm extends Component {
             value={this.state.subcategory.category}
             options={this.props.categories.map(c => ({ value: c.uid, name: c.name }))}
           />
+          {this.state.mode === 'UPDATE' && (
+            <Button
+              isLoading={this.props.loading}
+              title={'REMOVE'}
+              onClick={async () => {
+                await deleteSubcategory(this.props.dispatch)(this.state.subcategory.uid);
+              }}
+            />
+          )}
           <Button
-            style={``}
+            isLoading={this.props.loading}
             title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}
             onClick={async () => {
               if (this.state.mode === 'UPDATE') {
