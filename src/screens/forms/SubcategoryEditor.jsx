@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro';
 import { withAlert } from 'react-alert';
-import InputField from "../../components/base/TexInput";
+import InputField from "../../components/base/TextInput";
 import Button from "../../components/base/Button";
 import {
   addSubcategory,

@@ -5,14 +5,15 @@ import 'styled-components/macro'
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { withAlert } from 'react-alert'
 import Button from "../../components/base/Button";
-import InputField from "../../components/base/TexInput";
-import {addCourse, deleteCourse, updateCourse} from "../../redux/actions";
+import InputField from "../../components/base/TextInput";
+import { addCourse, deleteCourse, updateCourse } from "../../redux/actions";
 import { onAction } from 'redux-action-watch/lib/actionCreators';
 import { connect } from "react-redux";
 import { getCourse } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
 import { UPDATE_COURSE_SUCCESS } from "../../redux/action-types";
 
+// TODO: include LaTeX parsing (https://github.com/obedm503/showdown-katex)
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -42,8 +43,8 @@ class CourseEditor extends Component {
         uid: '',
         title: '',
         description: '',
-        tags: '',
-        subcategories: '',
+        tags: [],
+        subcategories: [],
         content: '',
       }
     }
@@ -52,6 +53,7 @@ class CourseEditor extends Component {
   componentDidMount() {
     const courseUid = this.props.match.params.uid;
     const course = getCourse(this.props.courses, courseUid);
+    console.log(course)
     if (courseUid !== undefined) {
       this.setCourseState({
         uid: course.uid,
@@ -115,8 +117,8 @@ class CourseEditor extends Component {
           />
           <InputField
             description={'Tags'}
-            onInput={tags => this.setCourseState({ tags })}
-            value={this.state.course.tags}
+            onInput={tags => this.setCourseState({ tags: tags.split(', ') })}
+            value={this.state.course.tags ? this.state.course.tags.join(', ') : ''}
           />
           <InputField
             description={'Subcategories'}
@@ -130,6 +132,15 @@ class CourseEditor extends Component {
             options={this.props.subcategories.map(c => ({ value: c.uid, name: c.name }))}
           />*/}
           <ReactMde
+            css={`
+              margin: 20px 0;
+              .mde-text {
+                outline: none;
+              }
+              button {
+                outline: none;
+              }
+            `}
             commands={listCommands}
             value={this.state.course.content}
             onChange={content => this.setCourseState({ content })}
@@ -153,9 +164,9 @@ class CourseEditor extends Component {
             title={this.state.mode === 'ADD' ? 'ADD' : 'UPDATE'}
             onClick={async () => {
               if (this.state.mode === 'UPDATE') {
-                await updateCourse(this.props.dispatch)(this.state);
+                await updateCourse(this.props.dispatch)(this.state.course);
               } else {
-                await addCourse(this.props.dispatch)(this.state);
+                await addCourse(this.props.dispatch)(this.state.course);
               }
             }}
           />

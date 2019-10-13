@@ -19,7 +19,6 @@ export default function ({ description, placeholder, onInput, value, disable = f
       css={`
         display: flex;
         flex-direction: column;
-        margin: 5px;
       `}>
       <span css={`padding: 10px;`}>{description}:</span>
       {disable ?
