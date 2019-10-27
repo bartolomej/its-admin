@@ -114,7 +114,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        categories: [...state.categories, action.payload]
+        categories: [ ...state.categories, action.payload ]
       };
     case ADD_CATEGORY_FAILED:
       return {
@@ -167,7 +167,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        subcategories: [...state.subcategories, action.payload]
+        subcategories: [ ...state.subcategories, action.payload ]
       };
     case ADD_SUBCATEGORY_FAILED:
       return {
@@ -254,7 +254,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        courses: [...state.courses, action.payload]
+        courses: [ ...state.courses, action.payload ]
       };
     case ADD_COURSE_FAILED:
       return {
@@ -262,6 +262,7 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
-    default: return state;
+    default:
+      return state;
   }
 }

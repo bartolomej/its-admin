@@ -30,7 +30,7 @@ export default function ({ title, onClick, style, isLoading }) {
     `}
       onClick={() => onClick()}
     >
-      { !isLoading && title }
+      {!isLoading && title}
       {isLoading && (
         <BeatLoader
           sizeUnit={"px"}

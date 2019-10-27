@@ -14,6 +14,7 @@ import {
   REMOVE_USER_FAILED,
 } from '../action-types';
 
+
 const initialState = {
   loading: false,
   error: null,
@@ -90,7 +91,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        users: [...state.users, action.payload]
+        users: [ ...state.users, action.payload ]
       };
     case ADD_USER_FAILED:
       return {
@@ -98,6 +99,7 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
-    default: return state;
+    default:
+      return state;
   }
 }

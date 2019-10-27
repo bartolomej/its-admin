@@ -3,7 +3,7 @@ import { Link, Route } from "react-router-dom";
 import 'styled-components/macro'
 
 
-export default function SidebarLink ({ path, title, image, activeOnlyWhenExact}) {
+export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }) {
   return (
     <Route
       path={path}

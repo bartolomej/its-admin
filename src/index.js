@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store';
 import * as serviceWorker from './serviceWorker';
 
+
 const options = {
   timeout: 5000,
   position: positions.TOP_RIGHT
@@ -16,7 +17,7 @@ const options = {
 ReactDOM.render(
   <Provider store={store}>
     <AlertProvider template={AlertTemplate} {...options}>
-      <App />
+      <App/>
     </AlertProvider>
   </Provider>,
   document.getElementById('root')

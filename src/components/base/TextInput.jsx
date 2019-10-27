@@ -1,6 +1,7 @@
 import React from 'react';
 import 'styled-components/macro'
 
+
 const inputStyles = `
   border: none;
   border-radius: 20px;

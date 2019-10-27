@@ -4,6 +4,7 @@ import {
   FETCH_EMAILS_SUCCESS
 } from "../action-types";
 
+
 const initialState = {
   loading: false,
   error: null,
@@ -29,6 +30,7 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
-    default: return state;
+    default:
+      return state;
   }
 }

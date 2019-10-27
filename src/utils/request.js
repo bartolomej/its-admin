@@ -1,9 +1,10 @@
 import DomainError from "./DomainError";
 
+
 const host = 'http://localhost:3000';
 
 
-export async function put(url = '', data = {}) {
+export async function put (url = '', data = {}) {
   const response = await fetch(host + url, {
     method: 'PUT',
     headers: {
@@ -15,7 +16,7 @@ export async function put(url = '', data = {}) {
   return await response.json();
 }
 
-export async function post(url = '', data = {}) {
+export async function post (url = '', data = {}) {
   const response = await fetch(host + url, {
     method: 'POST',
     headers: {
@@ -27,7 +28,7 @@ export async function post(url = '', data = {}) {
   return await response.json();
 }
 
-export async function get(url) {
+export async function get (url) {
   const response = await fetch(host + url, {
     method: 'GET',
     headers: {
@@ -38,7 +39,7 @@ export async function get(url) {
   return await response.json();
 }
 
-export async function remove(url) {
+export async function remove (url) {
   const response = await fetch(host + url, {
     method: 'DELETE',
     headers: {
@@ -49,7 +50,7 @@ export async function remove(url) {
   return await response.json();
 }
 
-async function validateErrors(response) {
+async function validateErrors (response) {
   if (response.status >= 400) {
     let resError = await response.json();
     throw new DomainError(

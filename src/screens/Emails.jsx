@@ -10,7 +10,7 @@ import EmailCard from "../components/EmailCard";
 
 class Emails extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.props = props;
   }
@@ -22,7 +22,7 @@ class Emails extends Component {
     this.registerErrorListener();
   };
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
@@ -32,23 +32,23 @@ class Emails extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div css={`
-        margin: 40px 80px;
+        margin: 60px 220px;
       `}>
         <TableView
           isLoading={this.props.loading}
           onAdd={() => console.log('Adding email...')}
           title={'Emails'}
           columns={[
-            {title: '', flex: 0.5},
-            {title: 'from', flex: 1},
-            {title: 'to', flex: 1},
-            {title: 'subject', flex: 0.5},
-            {title: 'text', flex: 1},
-            {title: 'datetime', flex: 0.5},
-            {title: '', flex: 0.5}
+            { title: '', flex: 0.5 },
+            { title: 'from', flex: 1 },
+            { title: 'to', flex: 1 },
+            { title: 'subject', flex: 0.5 },
+            { title: 'text', flex: 1 },
+            { title: 'datetime', flex: 0.5 },
+            { title: '', flex: 0.5 }
           ]}
           rows={
             this.props.emails.map(c => (
@@ -69,6 +69,7 @@ class Emails extends Component {
   }
 
 }
+
 
 export default connect(state => ({
   loading: state.mail.loading,

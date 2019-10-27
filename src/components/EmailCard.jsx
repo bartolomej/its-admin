@@ -13,7 +13,7 @@ export default function ({ uid, fromAddress, toAddress, subject, avatar, datetim
     <TableCard>
       {avatar ?
         <img css={`flex: 0.5`} src={avatar} alt={fromAddress}/> :
-        <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faEnvelope} />
+        <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faEnvelope}/>
       }
       <span
         css={`
@@ -53,7 +53,7 @@ export default function ({ uid, fromAddress, toAddress, subject, avatar, datetim
           cursor: pointer;
           outline: none;
         `}>
-        <FontAwesomeIcon icon={faEllipsisV} />
+        <FontAwesomeIcon icon={faEllipsisV}/>
       </button>
     </TableCard>
   );
@@ -64,7 +64,7 @@ export default function ({ uid, fromAddress, toAddress, subject, avatar, datetim
         color: inherit;
         text-decoration: none
       `}
-      to={{pathname: `/email/${uid}`,}}
+      to={{ pathname: `/email/${uid}`, }}
     >
       {card}
     </Link>

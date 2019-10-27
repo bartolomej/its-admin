@@ -24,7 +24,7 @@ export default withRouter(({ history }) => {
             outline: none;
           `}
           onClick={history.goBack}>
-          <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft} />
+          <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft}/>
         </button>
       </div>
       <div
@@ -34,7 +34,7 @@ export default withRouter(({ history }) => {
           justify-content: center;
           align-items: center;
         `}>
-        <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faSearch} />
+        <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faSearch}/>
         <input
           css={`
             margin-left: 10px;
@@ -57,10 +57,10 @@ export default withRouter(({ history }) => {
         `}>
         <FontAwesomeIcon
           css={`font-size: 20px; margin: 10px;`}
-          icon={faBell} />
+          icon={faBell}/>
         <FontAwesomeIcon
           css={`font-size: 20px; margin: 10px;`}
-          icon={faUserAstronaut} />
+          icon={faUserAstronaut}/>
       </div>
     </div>
   )

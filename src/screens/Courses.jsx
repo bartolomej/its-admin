@@ -7,17 +7,18 @@ import TableView from "../components/base/TableView";
 import CategoryCard from "../components/CategoryCard";
 import SubcategoryCard from "../components/SubcategoryCard";
 import CourseCard from "../components/CourseCard";
-import {subscribe} from "redux-subscriber";
+import { subscribe } from "redux-subscriber";
 
 
 class Courses extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.props = props;
   }
 
   componentDidMount = async () => {
+    // fetch data if no data is found in store
     if (
       this.props.courses.length === 0 ||
       this.props.categories.length === 0 ||
@@ -32,30 +33,31 @@ class Courses extends Component {
     this.registerErrorListener();
   };
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
   registerErrorListener = () => {
+    // subscribe to error state change
     this.unsubscribe = subscribe('education.error', state => {
       this.props.alert.error(state.education.error.message);
     });
   };
 
-  render() {
+  render () {
     return (
       <div css={`
-        margin: 40px 80px;
+        margin: 60px 220px;
       `}>
         <TableView
           isLoading={this.props.loading}
           onAdd={() => this.props.history.push('/add_category')}
           title={'Categories'}
           columns={[
-            {title: '', flex: 0.5},
-            {title: 'name', flex: 1},
-            {title: 'description', flex: 1},
-            {title: '', flex: 0.5}
+            { title: '', flex: 0.5 },
+            { title: 'name', flex: 1 },
+            { title: 'description', flex: 1 },
+            { title: '', flex: 0.5 }
           ]}
           rows={
             this.props.categories.map(c => (
@@ -75,10 +77,10 @@ class Courses extends Component {
           styles={`margin-top: 30px;`}
           title={'Subcategories'}
           columns={[
-            {title: '', flex: 0.5},
-            {title: 'name', flex: 1},
-            {title: 'description', flex: 1},
-            {title: '', flex: 0.5}
+            { title: '', flex: 0.5 },
+            { title: 'name', flex: 1 },
+            { title: 'description', flex: 1 },
+            { title: '', flex: 0.5 }
           ]}
           rows={
             this.props.subcategories.map(c => (
@@ -98,10 +100,10 @@ class Courses extends Component {
           styles={`margin-top: 30px;`}
           title={'Courses'}
           columns={[
-            {title: '', flex: 0.5},
-            {title: 'name', flex: 1},
-            {title: 'description', flex: 1},
-            {title: '', flex: 0.5}
+            { title: '', flex: 0.5 },
+            { title: 'name', flex: 1 },
+            { title: 'description', flex: 1 },
+            { title: '', flex: 0.5 }
           ]}
           rows={
             this.props.courses.map(c => (
@@ -121,6 +123,7 @@ class Courses extends Component {
   }
 
 }
+
 
 export default connect(state => ({
   loading: state.education.loading,

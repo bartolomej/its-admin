@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware, combineReducers} from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import logger from 'redux-logger'
 import initSubscriber from 'redux-subscriber';
 import actionWatchReducer from 'redux-action-watch/lib/reducer';

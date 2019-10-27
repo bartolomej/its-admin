@@ -9,7 +9,7 @@ import TableView from "../components/base/TableView";
 
 class Users extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {};
   }
@@ -20,26 +20,26 @@ class Users extends Component {
     }
   };
 
-  render() {
+  render () {
     return (
       <div css={`
         flex: 6;
         display: flex;
         flex-direction: column;
-        margin: 40px 80px;
+        margin: 60px 220px;
       `}>
         <TableView
           isLoading={this.props.loading}
           title={'Users'}
           onAdd={() => this.props.history.push('/add_user')}
           columns={[
-            {title: '', flex: 0.5},
-            {title: 'username', flex: 0.5},
-            {title: 'email', flex: 1},
-            {title: 'website', flex: 1},
-            {title: 'interests', flex: 1},
-            {title: 'created', flex: 0.5},
-            {title: '', flex: 0.5}
+            { title: '', flex: 0.5 },
+            { title: 'username', flex: 0.5 },
+            { title: 'email', flex: 1 },
+            { title: 'website', flex: 1 },
+            { title: 'interests', flex: 1 },
+            { title: 'created', flex: 0.5 },
+            { title: '', flex: 0.5 }
           ]}
           rows={
             this.props.users.map(user => (

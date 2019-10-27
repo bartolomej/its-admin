@@ -32,9 +32,10 @@ const listCommands = [
   }
 ];
 
+
 class CourseEditor extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       mode: '',
@@ -50,10 +51,9 @@ class CourseEditor extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const courseUid = this.props.match.params.uid;
     const course = getCourse(this.props.courses, courseUid);
-    console.log(course)
     if (courseUid !== undefined) {
       this.setCourseState({
         uid: course.uid,
@@ -70,7 +70,7 @@ class CourseEditor extends Component {
     this.registerListeners();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
@@ -83,7 +83,7 @@ class CourseEditor extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div
         css={`
@@ -186,6 +186,7 @@ class CourseEditor extends Component {
   }
 
 }
+
 
 export default connect(state => ({
   isLoading: state.education.isLoading,

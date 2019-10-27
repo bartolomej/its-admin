@@ -4,7 +4,14 @@ import SidebarLink from './components/SidebarLink';
 import 'styled-components/macro'
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faBook, faToolbox, faUserAstronaut, faHome, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import {
+  faUser,
+  faBook,
+  faToolbox,
+  faUserAstronaut,
+  faHome,
+  faEnvelope
+} from '@fortawesome/free-solid-svg-icons'
 import UserScreen from './screens/Users';
 import UserForm from "./screens/forms/UserEditor";
 import CourseScreen from './screens/Courses';
@@ -22,71 +29,68 @@ const sidebarRoutes = [
     path: "/",
     exact: true,
     title: 'DASHBOARD',
-    image: <FontAwesomeIcon icon={faHome} />,
-    main: DashboardScreen
+    image: <FontAwesomeIcon icon={faHome}/>,
+    component: DashboardScreen
   },
   {
     path: "/user",
     title: 'USERS',
-    image: <FontAwesomeIcon icon={faUser} />,
-    main: UserScreen
+    image: <FontAwesomeIcon icon={faUser}/>,
+    component: UserScreen
   },
   {
     path: "/course",
     title: 'COURSES',
-    image: <FontAwesomeIcon icon={faBook} />,
-    main: CourseScreen
+    image: <FontAwesomeIcon icon={faBook}/>,
+    component: CourseScreen
   },
   {
     path: "/project",
     title: 'PROJECTS',
-    image: <FontAwesomeIcon icon={faToolbox} />,
-    main: Projects
+    image: <FontAwesomeIcon icon={faToolbox}/>,
+    component: Projects
   },
   {
     path: "/email",
     title: 'EMAILS',
-    image: <FontAwesomeIcon icon={faEnvelope} />,
-    main: Emails
+    image: <FontAwesomeIcon icon={faEnvelope}/>,
+    component: Emails
   },
-];
-
-const otherRoutes = [
   {
     path: "/user/:uid",
-    main: UserForm
+    component: UserForm
   },
   {
     path: "/category/:uid",
-    main: CategoryForm
+    component: CategoryForm
   },
   {
     path: "/subcategory/:uid",
-    main: SubcategoryForm
+    component: SubcategoryForm
   },
   {
     path: "/course/:uid",
-    main: CourseEditor
+    component: CourseEditor
   },
   {
     path: "/add_user",
-    main: UserForm
+    component: UserForm
   },
   {
     path: "/add_category",
-    main: CategoryForm
+    component: CategoryForm
   },
   {
     path: "/add_subcategory",
-    main: SubcategoryForm
+    component: SubcategoryForm
   },
   {
     path: "/add_course",
-    main: CourseEditor
+    component: CourseEditor
   }
 ];
 
-function App() {
+function App () {
   return (
     <Router>
       <div>
@@ -107,16 +111,19 @@ function App() {
             `}>
             <AdminProfile
               firstName={'Bartolomej'}
-              lastName={'Kozorog'} />
+              lastName={'Kozorog'}
+            />
           </div>
           <div css={``}>
             {sidebarRoutes.map((route, index) => (
-              <SidebarLink
-                key={index}
-                activeOnlyWhenExact={route.exact}
-                image={route.image}
-                path={route.path}
-                title={route.title}/>
+              route.image && route.title ?
+                <SidebarLink
+                  key={index}
+                  activeOnlyWhenExact={route.exact}
+                  image={route.image}
+                  path={route.path}
+                  title={route.title}
+                /> : undefined
               )
             )}
           </div>
@@ -137,15 +144,7 @@ function App() {
                 key={index}
                 path={route.path}
                 exact={true}
-                component={route.main}
-              />
-            ))}
-            {otherRoutes.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                component={route.main}
+                component={route.component}
               />
             ))}
           </div>
@@ -168,14 +167,14 @@ function AdminProfile ({ firstName, lastName }) {
       `}>
       <FontAwesomeIcon
         css={`font-size: 35px`}
-        icon={faUserAstronaut} />
+        icon={faUserAstronaut}/>
       <span
         css={`
           font-weight: 700; 
           font-size: 15px; 
           padding: 10px
         `}>
-        { firstName }
+        {firstName}
       </span>
     </div>
   )

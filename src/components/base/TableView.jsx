@@ -3,19 +3,19 @@ import 'styled-components/macro'
 import Button from "./Button";
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {BarLoader} from "react-spinners";
+import { BarLoader } from "react-spinners";
 
 
 export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [ currentPage, setCurrentPage ] = useState(1);
+  const [ rowsPerPage, setRowsPerPage ] = useState(5);
 
   const nPages = rows.length / rowsPerPage;
 
   let records = rows.slice(
-    (currentPage-1) * rowsPerPage,
-    (currentPage-1) * rowsPerPage + rowsPerPage
+    (currentPage - 1) * rowsPerPage,
+    (currentPage - 1) * rowsPerPage + rowsPerPage
   );
   let pageNumbers = new Array(Math.ceil(nPages))
     .fill(0)
@@ -38,7 +38,7 @@ export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
           margin-bottom: 20px;
         `}>
         <h1 css={`padding: 0; margin: 0;`}>{title}</h1>
-        <Button title={`ADD ${title.toUpperCase()}`} onClick={() => onAdd()} />
+        <Button title={`ADD ${title.toUpperCase()}`} onClick={() => onAdd()}/>
       </div>
       <div
         css={`
@@ -63,8 +63,8 @@ export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
           const isObj = () => col instanceof Object;
           return (
             <ColumnHeader
-             title={isObj() ? col.title : col}
-             flex={isObj() ? col.flex: 1}
+              title={isObj() ? col.title : col}
+              flex={isObj() ? col.flex : 1}
             />
           )
         })}
@@ -108,21 +108,21 @@ export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
           `}>
           <ColumnArrow
             onClick={() => setCurrentPage(
-              currentPage > 1 ? currentPage-1 : 1
+              currentPage > 1 ? currentPage - 1 : 1
             )}
             direction={'left'}
           />
           {pageNumbers.map((n, index) => (
-            <PageNumber
-              pageNumber={n}
-              onClick={n => setCurrentPage(n)}
-              selected={n === currentPage}
-            />
+              <PageNumber
+                pageNumber={n}
+                onClick={n => setCurrentPage(n)}
+                selected={n === currentPage}
+              />
             )
           )}
           <ColumnArrow
             onClick={() => setCurrentPage(
-              currentPage === nPages ? currentPage : currentPage+1
+              currentPage === nPages ? currentPage : currentPage + 1
             )}
             direction={'right'}
           />
@@ -157,14 +157,14 @@ function ColumnArrow ({ direction, onClick }) {
       `}
       onClick={() => onClick()}>
       {direction === 'left' ?
-        <FontAwesomeIcon icon={faArrowLeft} /> :
-        <FontAwesomeIcon icon={faArrowRight} />
+        <FontAwesomeIcon icon={faArrowLeft}/> :
+        <FontAwesomeIcon icon={faArrowRight}/>
       }
     </button>
   )
 }
 
-function ColumnHeader({ title, flex }) {
+function ColumnHeader ({ title, flex }) {
   return (
     <div
       css={`
@@ -182,11 +182,11 @@ function ColumnHeader({ title, flex }) {
   )
 }
 
-function PageNumber({ pageNumber, onClick, selected }) {
+function PageNumber ({ pageNumber, onClick, selected }) {
   return (
     <button
       css={`
-        background: ${selected ? '#FFFF': 'none'};
+        background: ${selected ? '#FFFF' : 'none'};
         cursor: pointer;
         outline: none;
         display: block;

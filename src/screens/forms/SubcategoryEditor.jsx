@@ -11,14 +11,14 @@ import {
 } from "../../redux/actions";
 import OptionInput from "../../components/base/OptionInput";
 import { getSubcategory } from "../../redux/selectors";
-import {subscribe} from "redux-subscriber";
+import { subscribe } from "redux-subscriber";
 import { onAction } from 'redux-action-watch/lib/actionCreators';
 import { UPDATE_SUBCATEGORY_SUCCESS } from "../../redux/action-types";
 
 
 class UserForm extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       mode: '',
@@ -31,7 +31,7 @@ class UserForm extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const subcategoryUid = this.props.match.params.uid;
     const subcategory = getSubcategory(this.props.subcategories, subcategoryUid);
     if (subcategoryUid !== undefined) {
@@ -48,7 +48,7 @@ class UserForm extends Component {
     this.registerListeners();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
@@ -61,7 +61,7 @@ class UserForm extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div
         css={`
@@ -134,6 +134,7 @@ class UserForm extends Component {
   }
 
 }
+
 
 export default connect(state => ({
   isLoading: state.education.isLoading,

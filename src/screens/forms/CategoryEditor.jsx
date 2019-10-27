@@ -13,7 +13,7 @@ import { UPDATE_CATEGORY_SUCCESS } from "../../redux/action-types";
 
 class UserForm extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       mode: '',
@@ -25,7 +25,7 @@ class UserForm extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const categoryUid = this.props.match.params.uid;
     const category = getCategory(this.props.categories, categoryUid);
     if (categoryUid !== undefined) {
@@ -41,7 +41,7 @@ class UserForm extends Component {
     this.registerListeners();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
@@ -54,7 +54,7 @@ class UserForm extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div
         css={`
@@ -122,6 +122,7 @@ class UserForm extends Component {
   }
 
 }
+
 
 export default connect(state => ({
   isLoading: state.education.isLoading,

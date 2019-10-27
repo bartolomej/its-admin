@@ -5,23 +5,24 @@ import 'styled-components/macro'
 
 class Projects extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {};
   }
 
-  render() {
+  render () {
     return (
       <div css={`
         margin: 40px 80px;
       `}>
-        <h1 >Projects</h1>
+        <h1>Projects</h1>
         <div>TODO</div>
       </div>
     )
   }
 
 }
+
 
 export default connect(state => ({
   isLoading: state.user.isLoading,

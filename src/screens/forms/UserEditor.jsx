@@ -8,12 +8,12 @@ import { addUser, deleteUser, updateUser } from "../../redux/actions";
 import { getUser } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
 import { onAction } from 'redux-action-watch/lib/actionCreators';
-import {UPDATE_USER_SUCCESS} from "../../redux/action-types";
+import { UPDATE_USER_SUCCESS } from "../../redux/action-types";
 
 
 class UserEditor extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       mode: '',
@@ -32,7 +32,7 @@ class UserEditor extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const userUid = this.props.match.params.uid;
     const user = getUser(this.props.users, userUid);
     if (userUid !== undefined) {
@@ -55,7 +55,7 @@ class UserEditor extends Component {
     this.registerListeners();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
@@ -68,7 +68,7 @@ class UserEditor extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div
         css={`
@@ -163,6 +163,7 @@ class UserEditor extends Component {
   }
 
 }
+
 
 export default connect(state => ({
   loading: state.user.loading,

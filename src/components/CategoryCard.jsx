@@ -3,8 +3,8 @@ import 'styled-components/macro'
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {far} from "@fortawesome/free-regular-svg-icons";
-import {Link} from "react-router-dom";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
 import TableCard from "./base/TableCard";
 
 
@@ -13,7 +13,7 @@ export default function ({ uid, name, description, image }) {
     <TableCard>
       {image ?
         <img css={`flex: 0.5`} src={image} alt={name}/> :
-        <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faBookmark} />
+        <FontAwesomeIcon css={`flex: 0.5`} mask={far} icon={faBookmark}/>
       }
       <span
         css={`
@@ -35,7 +35,7 @@ export default function ({ uid, name, description, image }) {
           cursor: pointer;
           outline: none;
         `}>
-        <FontAwesomeIcon icon={faEllipsisV} />
+        <FontAwesomeIcon icon={faEllipsisV}/>
       </button>
     </TableCard>
   );
@@ -46,7 +46,7 @@ export default function ({ uid, name, description, image }) {
         color: inherit;
         text-decoration: none
       `}
-      to={{pathname: `/category/${uid}`,}}
+      to={{ pathname: `/category/${uid}`, }}
     >
       {card}
     </Link>
