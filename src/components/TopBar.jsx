@@ -3,6 +3,7 @@ import 'styled-components/macro'
 import { faBell, faSearch, faUserAstronaut, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from 'react-router-dom'
+import { DARK_FONT, HOVER } from "../styles";
 
 
 export default withRouter(({ history }) => {
@@ -12,7 +13,7 @@ export default withRouter(({ history }) => {
         height: 50px;
         padding: 30px;
         display: flex;
-        background-color: #FFFF;
+        background-color: #F8F6F7;
         align-items: center;
       `}>
       <div>
@@ -22,9 +23,15 @@ export default withRouter(({ history }) => {
             border: none;
             cursor: pointer;
             outline: none;
+            &:hover {
+              color: ${HOVER};
+            }
           `}
           onClick={history.goBack}>
-          <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faArrowLeft}/>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            css={`font-size: 20px;`}
+          />
         </button>
       </div>
       <div
@@ -34,20 +41,24 @@ export default withRouter(({ history }) => {
           justify-content: center;
           align-items: center;
         `}>
-        <FontAwesomeIcon css={`font-size: 20px; color: grey;`} icon={faSearch}/>
+        <FontAwesomeIcon
+          icon={faSearch}
+          css={`font-size: 20px;`}
+        />
         <input
           css={`
             margin-left: 10px;
             outline: none;
             flex: 0.7;
-            background-color: #F3F5FA;
+            background-color: #FFFF;
             line-height: 3;
             border: none;
             border-radius: 20px;
             padding-left: 10px;
           `}
           placeholder={'Search anything...'}
-          type='text'/>
+          type='text'
+        />
       </div>
       <div
         css={`

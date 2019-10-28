@@ -1,8 +1,10 @@
 import React from 'react';
-import 'styled-components/macro'
+import 'styled-components/macro';
+import { HOVER } from "../../styles";
 
 
 const inputStyles = `
+  flex: 2.5;
   border: none;
   border-radius: 20px;
   padding: 10px;
@@ -10,7 +12,7 @@ const inputStyles = `
   border: 1px solid #FFFF;
   transition: 0.3s;
   &:hover {
-    border: 1px solid red;
+    border: 1px solid ${HOVER};
   }
 `;
 
@@ -18,10 +20,20 @@ export default function ({ description, placeholder, onInput, value, disable = f
   return (
     <div
       css={`
+        margin: 10px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex: 3;
       `}>
-      <span css={`padding: 10px;`}>{description}:</span>
+      <span
+        css={`
+          padding: 10px; 
+          flex: 0.5; 
+          font-weight: 500;
+          font-size: 15px;
+        `}>
+        {description}:
+      </span>
       {disable ?
         <input
           css={inputStyles}

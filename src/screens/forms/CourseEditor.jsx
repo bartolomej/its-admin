@@ -13,6 +13,7 @@ import { getCourse } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
 import { UPDATE_COURSE_SUCCESS } from "../../redux/action-types";
 
+
 // TODO: include LaTeX parsing (https://github.com/obedm503/showdown-katex)
 
 const converter = new Showdown.Converter({
@@ -52,6 +53,23 @@ class CourseEditor extends Component {
   }
 
   componentDidMount () {
+    this.setLocalState();
+    this.registerListeners();
+    this.configureTextArea();
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe();
+  }
+
+  configureTextArea = () => {
+    // adjust text area based on text content
+    setTimeout(() => {
+      window.adjustTextArea();
+    }, 0);
+  };
+
+  setLocalState = () => {
     const courseUid = this.props.match.params.uid;
     const course = getCourse(this.props.courses, courseUid);
     if (courseUid !== undefined) {
@@ -67,12 +85,7 @@ class CourseEditor extends Component {
     } else {
       this.setState({ mode: 'ADD' });
     }
-    this.registerListeners();
-  }
-
-  componentWillUnmount () {
-    this.unsubscribe();
-  }
+  };
 
   registerListeners = () => {
     this.unsubscribe = subscribe('education.error', state => {
@@ -91,13 +104,15 @@ class CourseEditor extends Component {
           flex-direction: column;
           flex: 2;
           margin: 80px 150px;
-        `}>
+        `}
+      >
         <div
           css={`
-          display: flex;
-          flex: 0.5;
-          flex-direction: column;
-        `}>
+            display: flex;
+            flex: 0.5;
+            flex-direction: column;
+          `}
+        >
           {this.state.mode === 'UPDATE' && (
             <InputField
               description={'UID'}
@@ -132,23 +147,33 @@ class CourseEditor extends Component {
             options={this.props.subcategories.map(c => ({ value: c.uid, name: c.name }))}
           />*/}
           <ReactMde
-            css={`
-              margin: 20px 0;
-              .mde-text {
-                outline: none;
-              }
-              button {
-                outline: none;
-              }
-            `}
             commands={listCommands}
             value={this.state.course.content}
             onChange={content => this.setCourseState({ content })}
             selectedTab={this.state.selectedTab}
-            onTabChange={selectedTab => this.setState({ selectedTab })}
+            onTabChange={selectedTab => {
+              this.setState({ selectedTab });
+              if (selectedTab === 'write') {
+                this.configureTextArea();
+              }
+            }}
             generateMarkdownPreview={markdown =>
               Promise.resolve(converter.makeHtml(markdown))
             }
+            css={`
+              margin: 40px 0;
+              .mde-header {}
+              .mde-text { outline: none; }
+              .mde-preview { background-color: #fff; }
+              .mde-preview pre { background-color: #f6f8fa; }
+              .mde-preview img { max-width: 600px; }
+              button { outline: none; }
+              .mde-text  {
+                font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+                font-size: 14px;
+                line-height: 1.5; 
+              }
+            `}
           />
           {this.state.mode === 'UPDATE' && (
             <Button

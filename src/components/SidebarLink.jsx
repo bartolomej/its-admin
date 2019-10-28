@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Route } from "react-router-dom";
 import 'styled-components/macro'
+import { DARK_FONT, ACTIVE, HOVER, UNSET } from "../styles";
 
 
 export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }) {
@@ -19,10 +20,9 @@ export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }
           <div
             css={`
               width: 4px;
-              background-color: ${match ? 'red' : 'unset'}
+              background-color: ${match ? ACTIVE : 'unset'}
             `}
           />
-
           <Link
             css={`
               display: flex; 
@@ -31,10 +31,10 @@ export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }
               justify-content: space-around;
               flex: 1;
               padding: 15px;
-              color: ${match ? 'red' : 'black'};
+              color: ${match ? ACTIVE : UNSET};
               font-weight: 500;
               &:hover {
-                color: grey;
+                color: ${HOVER};
               }
             `}
             to={path}>
@@ -47,7 +47,7 @@ export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }
             `}>{image}</span>
             <span
               css={`
-                display; flex; 
+                display: flex; 
                 flex: 0.7; 
                 justify-content: left;
                 font-size: 14px;

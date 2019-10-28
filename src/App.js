@@ -4,91 +4,11 @@ import SidebarLink from './components/SidebarLink';
 import 'styled-components/macro'
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faUser,
-  faBook,
-  faToolbox,
-  faUserAstronaut,
-  faHome,
-  faEnvelope
-} from '@fortawesome/free-solid-svg-icons'
-import UserScreen from './screens/Users';
-import UserForm from "./screens/forms/UserEditor";
-import CourseScreen from './screens/Courses';
-import DashboardScreen from "./screens/Dashboard";
-import CourseEditor from "./screens/forms/CourseEditor";
+import { faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
 import TopBar from './components/TopBar';
-import CategoryForm from "./screens/forms/CategoryEditor";
-import SubcategoryForm from "./screens/forms/SubcategoryEditor";
-import Projects from "./screens/Projects";
-import Emails from "./screens/Emails";
+import routes from './routes';
+import { DARK_FONT } from "./styles";
 
-
-const sidebarRoutes = [
-  {
-    path: "/",
-    exact: true,
-    title: 'DASHBOARD',
-    image: <FontAwesomeIcon icon={faHome}/>,
-    component: DashboardScreen
-  },
-  {
-    path: "/user",
-    title: 'USERS',
-    image: <FontAwesomeIcon icon={faUser}/>,
-    component: UserScreen
-  },
-  {
-    path: "/course",
-    title: 'COURSES',
-    image: <FontAwesomeIcon icon={faBook}/>,
-    component: CourseScreen
-  },
-  {
-    path: "/project",
-    title: 'PROJECTS',
-    image: <FontAwesomeIcon icon={faToolbox}/>,
-    component: Projects
-  },
-  {
-    path: "/email",
-    title: 'EMAILS',
-    image: <FontAwesomeIcon icon={faEnvelope}/>,
-    component: Emails
-  },
-  {
-    path: "/user/:uid",
-    component: UserForm
-  },
-  {
-    path: "/category/:uid",
-    component: CategoryForm
-  },
-  {
-    path: "/subcategory/:uid",
-    component: SubcategoryForm
-  },
-  {
-    path: "/course/:uid",
-    component: CourseEditor
-  },
-  {
-    path: "/add_user",
-    component: UserForm
-  },
-  {
-    path: "/add_category",
-    component: CategoryForm
-  },
-  {
-    path: "/add_subcategory",
-    component: SubcategoryForm
-  },
-  {
-    path: "/add_course",
-    component: CourseEditor
-  }
-];
 
 function App () {
   return (
@@ -96,11 +16,13 @@ function App () {
       <div>
         <div
           css={`
+            /* SIDEBAR */
             height: 100vh;
             display: flex;
             width: 240px;
             position: fixed;
             flex-direction: column;
+            border-right: 1px solid #e1e4e8;
           `}>
           <div
             css={`
@@ -114,8 +36,9 @@ function App () {
               lastName={'Kozorog'}
             />
           </div>
-          <div css={``}>
-            {sidebarRoutes.map((route, index) => (
+          <div>
+            {routes.map((route, index) => (
+              // render sidebar link for appropriate routes
               route.image && route.title ?
                 <SidebarLink
                   key={index}
@@ -130,16 +53,17 @@ function App () {
         </div>
         <div
           css={`
+            /* MAIN VIEW */
             flex: 5;
             margin-left: 240px;
             display: flex;
             min-height: 100vh;
             flex-direction: column;
-            background-color: #F3F5FA;
+            background-color: #F8F6F7;
           `}>
           <TopBar/>
           <div css={`flex: 4.5`}>
-            {sidebarRoutes.map((route, index) => (
+            {routes.map((route, index) => (
               <Route
                 key={index}
                 path={route.path}
@@ -164,9 +88,13 @@ function AdminProfile ({ firstName, lastName }) {
         padding: 15px; 
         justify-content: center;
         align-items: center;
+        color: ${DARK_FONT};
       `}>
       <FontAwesomeIcon
-        css={`font-size: 35px`}
+        css={`
+          font-size: 40px;
+          margin: 10px;
+        `}
         icon={faUserAstronaut}/>
       <span
         css={`

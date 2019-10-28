@@ -40,4 +40,11 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+<script>
+  function adjustTextArea() {
+    let textArea = document.getElementsByTagName('textarea')[0];
+    textArea.style.height = "1px";
+    textArea.style.height = (25 + textArea.scrollHeight) + "px";
+  }
+</script>
 </html>

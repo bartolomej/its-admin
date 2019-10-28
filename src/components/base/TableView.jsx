@@ -35,9 +35,9 @@ export default function ({ columns, rows, title, styles, onAdd, isLoading }) {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         `}>
-        <h1 css={`padding: 0; margin: 0;`}>{title}</h1>
+        <h2 css={`padding: 0; margin: 0;`}>{title}</h2>
         <Button title={`ADD ${title.toUpperCase()}`} onClick={() => onAdd()}/>
       </div>
       <div

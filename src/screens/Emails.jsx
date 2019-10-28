@@ -40,7 +40,7 @@ class Emails extends Component {
         <TableView
           isLoading={this.props.loading}
           onAdd={() => console.log('Adding email...')}
-          title={'Emails'}
+          title={'Sent emails'}
           columns={[
             { title: '', flex: 0.5 },
             { title: 'from', flex: 1 },

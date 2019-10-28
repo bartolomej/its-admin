@@ -1,5 +1,6 @@
 import React from 'react';
-import 'styled-components/macro'
+import 'styled-components/macro';
+import { DARK_FONT, HOVER } from '../../styles';
 
 
 export default function (props) {
@@ -14,11 +15,12 @@ export default function (props) {
         justify-content: space-around;
         background-color: white;
         margin: 10px 0;
-        padding: 15px 0;
+        padding: 13px 0;
         box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
         transition: .3s ease;
+        color: ${DARK_FONT};
         &:hover {
-          color: red;
+          color: ${HOVER};
           transform: translateY(-4px);
           -ms-transform:translateY(-4px);
           -webkit-transform:translateY(-4px);
