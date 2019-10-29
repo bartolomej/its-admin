@@ -40,11 +40,12 @@ export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }
             to={path}>
             <span
               css={`
-              flex: 0.3;
-              display: flex; 
-              justify-content: center;
-              align-items: center;
-            `}>{image}</span>
+                flex: 0.3;
+                display: flex; 
+                justify-content: center;
+                align-items: center;
+              `}
+            >{image}</span>
             <span
               css={`
                 display: flex; 

@@ -1,5 +1,6 @@
-# ITS admin app
+<p align="center"> <img src="https://i.ibb.co/YXHPYQY/its-logo-3.png" width="240" /> </p>
 
+# ITS admin app
 
 ## Setup
 
