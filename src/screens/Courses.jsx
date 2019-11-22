@@ -3,11 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { fetchCategories, fetchSubcategories, fetchCourses } from "../redux/actions";
 import 'styled-components/macro';
-import TableView from "../components/base/TableView";
-import CategoryCard from "../components/CategoryCard";
-import SubcategoryCard from "../components/SubcategoryCard";
-import CourseCard from "../components/CourseCard";
 import { subscribe } from "redux-subscriber";
+import Table from '../components/Table';
 
 
 class Courses extends Component {
@@ -25,16 +22,16 @@ class Courses extends Component {
       this.props.subcategories.length === 0
     ) {
       await Promise.all([
-        await fetchCategories(this.props.dispatch)(),
-        await fetchSubcategories(this.props.dispatch)(),
-        await fetchCourses(this.props.dispatch)()
+        await this.props.fetchCategories(),
+        await this.props.fetchSubcategories(),
+        await this.props.fetchCourses()
       ]);
     }
     this.registerErrorListener();
   };
 
   componentWillUnmount () {
-    this.unsubscribe();
+    // this.unsubscribe();
   }
 
   registerErrorListener = () => {
@@ -44,79 +41,59 @@ class Courses extends Component {
     });
   };
 
+  onCategoryEdit = category => {
+    this.props.history.push(`/category/${category.uid}`);
+  };
+
+  onSubcategoryEdit = subcategory => {
+    this.props.history.push(`/subcategory/${subcategory.uid}`);
+  };
+
+  onCourseEdit = course => {
+    this.props.history.push(`/course/${course.uid}`);
+  };
+
   render () {
     return (
-      <div css={`
-        margin: 60px 220px;
-      `}>
-        <TableView
-          isLoading={this.props.loading}
+      <div>
+        <Table
+          title="Categories"
+          style={`margin-bottom: 20px`}
           onAdd={() => this.props.history.push('/add_category')}
-          title={'Categories'}
-          columns={[
-            { title: '', flex: 0.5 },
-            { title: 'name', flex: 1 },
-            { title: 'description', flex: 1 },
-            { title: '', flex: 0.5 }
-          ]}
-          rows={
-            this.props.categories.map(c => (
-              <CategoryCard
-                key={c.uid}
-                uid={c.uid}
-                name={c.name}
-                description={c.description}
-                image={c.image}
-              />
-            ))
-          }
-        />
-        <TableView
           isLoading={this.props.loading}
+          height={300}
+          data={this.props.categories}
+          columns={[
+            { type: 'text', title: 'Name', key: 'name', width: 200 },
+            { type: 'text', title: 'Description', key: 'description', width: 400 },
+            { type: 'action', title: 'Actions', key: 'action', width: 100, onEdit: this.onCategoryEdit }
+          ]}
+        />
+        <Table
+          title="Subcategories"
+          style={`margin-bottom: 20px`}
           onAdd={() => this.props.history.push('/add_subcategory')}
-          styles={`margin-top: 30px;`}
-          title={'Subcategories'}
-          columns={[
-            { title: '', flex: 0.5 },
-            { title: 'name', flex: 1 },
-            { title: 'description', flex: 1 },
-            { title: '', flex: 0.5 }
-          ]}
-          rows={
-            this.props.subcategories.map(c => (
-              <SubcategoryCard
-                key={c.uid}
-                uid={c.uid}
-                name={c.name}
-                description={c.description}
-                image={c.image}
-              />
-            ))
-          }
-        />
-        <TableView
           isLoading={this.props.loading}
-          onAdd={() => this.props.history.push('/add_course')}
-          styles={`margin-top: 30px;`}
-          title={'Courses'}
+          height={300}
+          data={this.props.subcategories}
           columns={[
-            { title: '', flex: 0.5 },
-            { title: 'name', flex: 1 },
-            { title: 'description', flex: 1 },
-            { title: '', flex: 0.5 }
+            { type: 'text', title: 'Name', key: 'name', width: 200 },
+            { type: 'text', title: 'Description', key: 'description', width: 400 },
+            { type: 'action', title: 'Actions', key: 'action', width: 100, onEdit: this.onSubcategoryEdit }
           ]}
-          rows={
-            this.props.courses.map(c => (
-              <CourseCard
-                key={c.uid}
-                uid={c.uid}
-                title={c.title}
-                description={c.description}
-                tags={c.tags}
-                created={c.created}
-              />
-            ))
-          }
+        />
+        <Table
+          title="Courses"
+          onAdd={() => this.props.history.push('/add_course')}
+          isLoading={this.props.loading}
+          height={600}
+          data={this.props.courses.map(c => ({...c, tags: c.tags.join(', ')}))}
+          columns={[
+            { type: 'text', title: 'Title', key: 'title', width: 200 },
+            { type: 'text', title: 'Description', key: 'description', width: 200 },
+            { type: 'text', title: 'Tags', key: 'tags', width: 200 },
+            { type: 'action', title: 'Actions', key: 'action', width: 100, onEdit: this.onCourseEdit }
+          ]}
         />
       </div>
     )
@@ -124,11 +101,16 @@ class Courses extends Component {
 
 }
 
-
 export default connect(state => ({
-  loading: state.education.loading,
-  error: state.education.error,
-  categories: state.education.categories,
-  subcategories: state.education.subcategories,
-  courses: state.education.courses,
-}))(withRouter(Courses));
+    loading: state.education.loading,
+    error: state.education.error,
+    categories: state.education.categories,
+    subcategories: state.education.subcategories,
+    courses: state.education.courses,
+  }),
+  dispatch => ({
+    fetchCategories: fetchCategories(dispatch),
+    fetchSubcategories: fetchSubcategories(dispatch),
+    fetchCourses: fetchCourses(dispatch)
+  })
+)(withRouter(Courses));

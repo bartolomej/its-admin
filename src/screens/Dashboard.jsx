@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro'
+import { Col, Panel, Row } from "rsuite";
+import ChartistExample from '../components/ChartistExample';
 
 
 class Dashboard extends Component {
@@ -12,12 +14,25 @@ class Dashboard extends Component {
 
   render () {
     return (
-      <div css={`
-        margin: 40px 80px;
-      `}>
-        <h1>Dashboard</h1>
-        <div>TODO</div>
-      </div>
+      <Panel className="dashboard" header={<h3>Dashboard</h3>}>
+
+        <Row gutter={30} className="header">
+          <Col xs={8}>
+            <Panel className="trend-box">
+              <img className="chart-img" src={'https://raw.githubusercontent.com/rsuite/rsuite-management-system/master/src/images/charts/pv.svg'} />
+              <div className="title">Page Views </div>
+              <div className="value">281,358</div>
+            </Panel>
+          </Col>
+        </Row>
+
+        <Row gutter={30}>
+          <Col xs={16}>
+            <ChartistExample title="Page Views Trends by Week" type="Line" />
+          </Col>
+        </Row>
+
+      </Panel>
     )
   }
 

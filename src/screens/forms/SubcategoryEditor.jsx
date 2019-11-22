@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro';
 import { withAlert } from 'react-alert';
-import InputField from "../../components/base/TextInput";
-import Button from "../../components/base/Button";
+import InputField from "../../components/TextInput";
+import Button from "../../components/Button";
 import {
   addSubcategory,
   deleteSubcategory,
   updateSubcategory
 } from "../../redux/actions";
-import OptionInput from "../../components/base/OptionInput";
+import OptionInput from "../../components/OptionInput";
 import { getSubcategory } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
 import { onAction } from 'redux-action-watch/lib/actionCreators';

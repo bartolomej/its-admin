@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
 import { fetchUsers } from "../redux/actions";
 import 'styled-components/macro'
-import UserCard from "../components/UserCard";
-import TableView from "../components/base/TableView";
-
+import Table from '../components/Table';
 
 class Users extends Component {
 
@@ -20,48 +18,40 @@ class Users extends Component {
     }
   };
 
+  getUsers = () => (
+    this.props.users.map(u => ({
+      ...u,
+      createdDate: new Date(u.createdDate).toDateString(),
+    }))
+  );
+
+  navigateToEdit = user => {
+    this.props.history.push(`/user/${user.uid}`);
+  };
+
   render () {
     return (
-      <div css={`
-        flex: 6;
-        display: flex;
-        flex-direction: column;
-        margin: 60px 220px;
-      `}>
-        <TableView
+      <div>
+        <Table
+          title="Users"
+          onAdd={() => this.props.history.push('add_user')}
           isLoading={this.props.loading}
-          title={'Users'}
-          onAdd={() => this.props.history.push('/add_user')}
+          height={600}
+          data={this.getUsers()}
           columns={[
-            { title: '', flex: 0.5 },
-            { title: 'username', flex: 0.5 },
-            { title: 'email', flex: 1 },
-            { title: 'website', flex: 1 },
-            { title: 'interests', flex: 1 },
-            { title: 'created', flex: 0.5 },
-            { title: '', flex: 0.5 }
+            { type: 'image', title: 'Avatar', key: 'avatar', width: 100 },
+            { type: 'text', title: 'Username', key: 'username', width: 200 },
+            { type: 'text', title: 'Type', key: 'type', width: 80 },
+            { type: 'email', title: 'Email', key: 'email', width: 250 },
+            { type: 'text', title: 'Created', key: 'createdDate', width: 150 },
+            { type: 'action', title: 'Actions', key: 'action', width: 100, onEdit: this.navigateToEdit }
           ]}
-          rows={
-            this.props.users.map(user => (
-              <UserCard
-                key={user.uid}
-                uid={user.uid}
-                username={user.username}
-                email={user.email}
-                type={user.type}
-                interests={user.interests}
-                avatar={user.image}
-                createdDate={user.createdDate}
-              />
-            ))
-          }
         />
       </div>
-    );
+    )
   }
 
 }
-
 
 export default connect(state => ({
   loading: state.user.loading,

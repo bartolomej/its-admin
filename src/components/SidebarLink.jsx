@@ -26,7 +26,7 @@ export default function SidebarLink ({ path, title, image, activeOnlyWhenExact }
           <Link
             css={`
               display: flex; 
-              text-decoration: none;
+              text-decoration: none !important;
               flex-direction: row;
               justify-content: space-around;
               flex: 1;

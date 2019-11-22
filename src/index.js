@@ -3,10 +3,15 @@ import ReactDOM from 'react-dom';
 import { positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from './components/AlertTemplate';
 import './index.css';
-import App from './App';
+import App from './App.jsx';
 import { Provider } from 'react-redux'
 import store from './redux/store';
 import * as serviceWorker from './serviceWorker';
+import 'rsuite/dist/styles/rsuite-default.css';
+import firebase from "firebase/app";
+import firebaseconfig from "./firebaseconfig";
+import "firebase/auth";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 
 
 const options = {
@@ -14,10 +19,22 @@ const options = {
   position: positions.TOP_RIGHT
 };
 
+const rrfProps = {
+  firebase,
+  config: {
+    userProfile: "users"
+  },
+  dispatch: store.dispatch
+};
+
+firebase.initializeApp(firebaseconfig);
+
 ReactDOM.render(
   <Provider store={store}>
     <AlertProvider template={AlertTemplate} {...options}>
-      <App/>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <App/>
+      </ReactReduxFirebaseProvider>
     </AlertProvider>
   </Provider>,
   document.getElementById('root')

@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { fetchEmails } from "../redux/actions";
 import 'styled-components/macro';
-import TableView from "../components/base/TableView";
 import { subscribe } from "redux-subscriber";
-import EmailCard from "../components/EmailCard";
+import Table from '../components/Table';
 
 
 class Emails extends Component {
@@ -34,35 +33,19 @@ class Emails extends Component {
 
   render () {
     return (
-      <div css={`
-        margin: 60px 220px;
-      `}>
-        <TableView
+      <div>
+        <Table
+          title="Emails"
           isLoading={this.props.loading}
-          onAdd={() => console.log('Adding email...')}
-          title={'Sent emails'}
+          height={300}
+          data={this.props.emails}
           columns={[
-            { title: '', flex: 0.5 },
-            { title: 'from', flex: 1 },
-            { title: 'to', flex: 1 },
-            { title: 'subject', flex: 0.5 },
-            { title: 'text', flex: 1 },
-            { title: 'datetime', flex: 0.5 },
-            { title: '', flex: 0.5 }
+            { type: 'text', title: 'Sender', key: 'fromAddress', width: 200 },
+            { type: 'text', title: 'Recipient', key: 'toAddress', width: 200 },
+            { type: 'text', title: 'Subject', key: 'subject', width: 100 },
+            { type: 'text', title: 'Datetime', key: 'datetime', width: 200 },
+            { type: 'action', title: 'Actions', key: 'action', width: 100, onEdit: this.navigateToEdit }
           ]}
-          rows={
-            this.props.emails.map(c => (
-              <EmailCard
-                key={c.uid}
-                uid={c.uid}
-                fromAddress={c.fromAddress}
-                toAddress={c.toAddress}
-                datetime={c.datetime}
-                subject={c.subject}
-                text={c.text}
-              />
-            ))
-          }
         />
       </div>
     )

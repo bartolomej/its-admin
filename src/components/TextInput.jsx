@@ -1,6 +1,6 @@
 import React from 'react';
 import 'styled-components/macro';
-import { HOVER } from "../../styles";
+import { HOVER } from "../styles";
 
 
 const inputStyles = `

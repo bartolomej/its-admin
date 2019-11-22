@@ -4,24 +4,39 @@ import * as Showdown from "showdown";
 import 'styled-components/macro'
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { withAlert } from 'react-alert'
-import Button from "../../components/base/Button";
-import InputField from "../../components/base/TextInput";
+import Button from "../../components/Button";
+import InputField from "../../components/TextInput";
 import { addCourse, deleteCourse, updateCourse } from "../../redux/actions";
 import { onAction } from 'redux-action-watch/lib/actionCreators';
 import { connect } from "react-redux";
 import { getCourse } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
 import { UPDATE_COURSE_SUCCESS } from "../../redux/action-types";
+import showdownKatex from 'showdown-katex';
+import showdownHighlight from 'showdown-highlight';
 
+Showdown.setFlavor('github');
 
-// TODO: include LaTeX parsing (https://github.com/obedm503/showdown-katex)
-
+// TODO: test showdown plugins
 const converter = new Showdown.Converter({
   tables: true,
   simplifiedAutoLink: true,
   strikethrough: true,
-  tasklists: true
+  tasklists: true,
+  extensions: [
+    //showdownHighlight, doesn't work
+    showdownKatex({
+      displayMode: true,
+      throwOnError: true,
+      errorColor: '#ff0000',
+      delimiters: [
+        { left: "$", right: "$", display: false },
+        { left: '~', right: '~', display: false, asciimath: true },
+      ]
+    }),
+  ],
 });
+
 
 const listCommands = [
   {
@@ -103,7 +118,6 @@ class CourseEditor extends Component {
           display: flex;
           flex-direction: column;
           flex: 2;
-          margin: 80px 150px;
         `}
       >
         <div
@@ -149,7 +163,9 @@ class CourseEditor extends Component {
           <ReactMde
             commands={listCommands}
             value={this.state.course.content}
-            onChange={content => this.setCourseState({ content })}
+            onChange={content => {
+              this.setCourseState({ content });
+            }}
             selectedTab={this.state.selectedTab}
             onTabChange={selectedTab => {
               this.setState({ selectedTab });

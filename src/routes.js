@@ -2,7 +2,7 @@ import React from 'react';
 import {
   faUser,
   faBook,
-  faToolbox,
+  faList,
   faHome,
   faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
@@ -15,13 +15,14 @@ import DashboardScreen from "./screens/Dashboard";
 import CourseEditor from "./screens/forms/CourseEditor";
 import CategoryForm from "./screens/forms/CategoryEditor";
 import SubcategoryForm from "./screens/forms/SubcategoryEditor";
-import Projects from "./screens/Projects";
+import Events from "./screens/Events";
 import Emails from "./screens/Emails";
+import Login from './screens/Login';
 
 
 const sidebarRoutes = [
   {
-    path: "/",
+    path: "/dashboard",
     exact: true,
     title: 'DASHBOARD',
     image: <FontAwesomeIcon icon={faHome}/>,
@@ -40,10 +41,10 @@ const sidebarRoutes = [
     component: CourseScreen
   },
   {
-    path: "/project",
-    title: 'PROJECTS',
-    image: <FontAwesomeIcon icon={faToolbox}/>,
-    component: Projects
+    path: "/event",
+    title: 'EVENTS',
+    image: <FontAwesomeIcon icon={faList}/>,
+    component: Events
   },
   {
     path: "/email",
@@ -54,6 +55,10 @@ const sidebarRoutes = [
 ];
 
 const otherRoutes = [
+  {
+    path: "/login",
+    component: Login
+  },
   {
     path: "/user/:uid",
     component: UserForm

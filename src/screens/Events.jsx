@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import 'styled-components/macro'
 
 
-class Projects extends Component {
+class Events extends Component {
 
   constructor (props) {
     super(props);
@@ -12,11 +12,8 @@ class Projects extends Component {
 
   render () {
     return (
-      <div css={`
-        margin: 40px 80px;
-      `}>
-        <h1>Projects</h1>
-        <div>TODO</div>
+      <div>
+
       </div>
     )
   }
@@ -28,4 +25,4 @@ export default connect(state => ({
   isLoading: state.user.isLoading,
   error: state.user.error,
   users: state.user.users,
-}))(Projects);
+}))(Events);
