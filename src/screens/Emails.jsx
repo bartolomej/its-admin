@@ -37,7 +37,7 @@ class Emails extends Component {
         <Table
           title="Emails"
           isLoading={this.props.loading}
-          height={300}
+          height={600}
           data={this.props.emails}
           columns={[
             { type: 'text', title: 'Sender', key: 'fromAddress', width: 200 },

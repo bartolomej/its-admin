@@ -61,7 +61,7 @@ class Courses extends Component {
           style={`margin-bottom: 20px`}
           onAdd={() => this.props.history.push('/add_category')}
           isLoading={this.props.loading}
-          height={300}
+          height={200}
           data={this.props.categories}
           columns={[
             { type: 'text', title: 'Name', key: 'name', width: 200 },
@@ -74,7 +74,7 @@ class Courses extends Component {
           style={`margin-bottom: 20px`}
           onAdd={() => this.props.history.push('/add_subcategory')}
           isLoading={this.props.loading}
-          height={300}
+          height={200}
           data={this.props.subcategories}
           columns={[
             { type: 'text', title: 'Name', key: 'name', width: 200 },
@@ -86,7 +86,7 @@ class Courses extends Component {
           title="Courses"
           onAdd={() => this.props.history.push('/add_course')}
           isLoading={this.props.loading}
-          height={600}
+          height={300}
           data={this.props.courses.map(c => ({...c, tags: c.tags.join(', ')}))}
           columns={[
             { type: 'text', title: 'Title', key: 'title', width: 200 },

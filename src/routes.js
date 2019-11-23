@@ -9,12 +9,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import UserScreen from './screens/Users';
-import UserForm from "./screens/forms/UserEditor";
+import UserForm from "./screens/forms/User";
 import CourseScreen from './screens/Courses';
 import DashboardScreen from "./screens/Dashboard";
-import CourseEditor from "./screens/forms/CourseEditor";
-import CategoryForm from "./screens/forms/CategoryEditor";
-import SubcategoryForm from "./screens/forms/SubcategoryEditor";
+import CourseEditor from "./screens/forms/Course";
+import CategoryForm from "./screens/forms/Category";
+import SubcategoryForm from "./screens/forms/Subcategory";
 import Events from "./screens/Events";
 import Emails from "./screens/Emails";
 import Login from './screens/Login';
@@ -22,7 +22,7 @@ import Login from './screens/Login';
 
 const sidebarRoutes = [
   {
-    path: "/dashboard",
+    path: "/",
     exact: true,
     title: 'DASHBOARD',
     image: <FontAwesomeIcon icon={faHome}/>,

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import 'styled-components/macro'
-import { Col, Panel, Row } from "rsuite";
+import 'styled-components/macro';
+import styled from "styled-components";
 import ChartistExample from '../components/ChartistExample';
+import logo from '../assets/pv.svg';
 
 
 class Dashboard extends Component {
@@ -14,29 +15,54 @@ class Dashboard extends Component {
 
   render () {
     return (
-      <Panel className="dashboard" header={<h3>Dashboard</h3>}>
+      <Container>
 
-        <Row gutter={30} className="header">
-          <Col xs={8}>
-            <Panel className="trend-box">
-              <img className="chart-img" src={'https://raw.githubusercontent.com/rsuite/rsuite-management-system/master/src/images/charts/pv.svg'} />
-              <div className="title">Page Views </div>
-              <div className="value">281,358</div>
-            </Panel>
-          </Col>
-        </Row>
+        <StatsContainer>
+          <StatsCard>
+            <img className="chart-img" src={logo}  alt="test"/>
+            <div className="title">Page Views </div>
+            <div className="value">281,358</div>
+          </StatsCard>
+          <StatsCard>
+            <img className="chart-img" src={logo}  alt="test"/>
+            <div className="title">Page Views </div>
+            <div className="value">281,358</div>
+          </StatsCard>
+        </StatsContainer>
 
-        <Row gutter={30}>
-          <Col xs={16}>
-            <ChartistExample title="Page Views Trends by Week" type="Line" />
-          </Col>
-        </Row>
+        <StatsCard>
+          <ChartistExample title="Page Views Trends by Week" type="Line" />
+        </StatsCard>
 
-      </Panel>
+      </Container>
     )
   }
 
 }
+
+const Container = styled.div`
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: normal;
+`;
+
+const StatsContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
+
+const StatsCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+`;
 
 
 export default connect(state => ({

@@ -42,7 +42,7 @@ function MainView () {
       <TopBar/>
       <div
         css={`
-          flex: 4.5;
+          flex: 1;
           padding: 60px 220px;
           @media (max-width: 1300px) { padding: 60px 100px; }
           @media (max-width: 1000px) { padding: 60px 60px; }
