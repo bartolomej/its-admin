@@ -21,8 +21,8 @@ function Login ({loading, user, authToken, login, history}) {
   }, []);
 
   function handleLogin () {
-    if (!loginCred.password || !loginCred.email) {
-      return showSimpleNotification('error', "Please fill login credentials")
+    if (!loginCred) {
+      return showSimpleNotification('error', "Please input login credentials")
     }
     if (loginCred.password.length < 6) {
       return showSimpleNotification('error', "Password too short");
@@ -33,8 +33,8 @@ function Login ({loading, user, authToken, login, history}) {
   return (
     <div
       css={`
+        margin-top: 10%;
         display: flex;
-        align-items: center;
         justify-content: center;
       `}
     >

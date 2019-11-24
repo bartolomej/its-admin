@@ -10,8 +10,9 @@ Build with [React.js](https://reactjs.org/).
 To install and work on ITS run:
 1. `git clone https://github.com/bartolomej/its-admin`
 2. `cd its-server`
-1. `npm install` - installs all external libraries
-2. `npm start` - starts app in development mode
+3. `npm install` - installs all external libraries
+4.  create `env.development.local` file to override existing env variables in `.env.development`. Find out more [here](https://create-react-app.dev/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env).
+4. `npm start` - starts app in development mode
 
 ## Available Scripts
 

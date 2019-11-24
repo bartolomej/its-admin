@@ -1,8 +1,6 @@
-import DomainError from "./DomainError";
+import DomainError from "./error";
 import * as firebase from "firebase/app";
 
-
-const host = 'http://localhost:3000';
 
 async function getHeaders () {
   const token = await firebase.auth().currentUser.getIdToken();
@@ -13,7 +11,7 @@ async function getHeaders () {
 }
 
 export async function put (url = '', data = {}) {
-  const response = await fetch(host + url, {
+  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
     method: 'PUT',
     headers: await getHeaders(),
     body: JSON.stringify(data)
@@ -23,7 +21,7 @@ export async function put (url = '', data = {}) {
 }
 
 export async function post (url = '', data = {}) {
-  const response = await fetch(host + url, {
+  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
     method: 'POST',
     headers: await getHeaders(),
     body: JSON.stringify(data)
@@ -33,7 +31,7 @@ export async function post (url = '', data = {}) {
 }
 
 export async function get (url) {
-  const response = await fetch(host + url, {
+  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
     method: 'GET',
     headers: await getHeaders(),
   });
@@ -42,7 +40,7 @@ export async function get (url) {
 }
 
 export async function remove (url) {
-  const response = await fetch(host + url, {
+  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
     method: 'DELETE',
     headers: await getHeaders(),
   });

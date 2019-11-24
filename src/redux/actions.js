@@ -62,7 +62,7 @@ import {
 import { get, put, post, remove } from "../utils/request";
 import * as firebase from "firebase/app";
 import "firebase/auth";
-import DomainError from "../utils/DomainError";
+import DomainError from "../utils/error";
 
 
 /** AUTH ACTIONS (https://firebase.google.com/docs/auth/web/password-auth) **/
@@ -70,7 +70,7 @@ import DomainError from "../utils/DomainError";
 export const login = dispatch => async (email, password) => {
   dispatch({ type: AUTH_ADMIN_REQUEST });
   try {
-    const authorized = await firebase.login({email, password});
+    const authorized = await firebase.auth().signInWithEmailAndPassword(email, password);
     dispatch({ type: AUTH_ADMIN_SUCCESS, payload: authorized })
   } catch (e) {
     dispatch({ type: AUTH_ADMIN_FAILED, payload: new DomainError(e.code, e.message) })

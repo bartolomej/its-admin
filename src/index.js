@@ -11,7 +11,6 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import firebase from "firebase/app";
 import firebaseconfig from "./firebaseconfig";
 import "firebase/auth";
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 
 
 const options = {
@@ -19,22 +18,12 @@ const options = {
   position: positions.TOP_RIGHT
 };
 
-const rrfProps = {
-  firebase,
-  config: {
-    userProfile: "users"
-  },
-  dispatch: store.dispatch
-};
-
 firebase.initializeApp(firebaseconfig);
 
 ReactDOM.render(
   <Provider store={store}>
     <AlertProvider template={AlertTemplate} {...options}>
-      <ReactReduxFirebaseProvider {...rrfProps}>
-        <App/>
-      </ReactReduxFirebaseProvider>
+      <App/>
     </AlertProvider>
   </Provider>,
   document.getElementById('root')
