@@ -53,7 +53,9 @@ class UserEditor extends Component {
       <div>
         <Form
           type={this.state.mode}
-          onSubmit={console.log}
+          onSubmit={(uid, data) => this.props.updateUser(uid, data)}
+          onDelete={uid => this.props.deleteUser(uid)}
+          entityUid={this.state.user.uid}
           formElements={[
             {
               type: 'text',
@@ -118,5 +120,6 @@ export default connect(state => ({
   users: state.user.users,
 }), dispatch => ({
   onAction: onAction(dispatch),
-  dispatch
+  deleteUser: deleteUser(dispatch),
+  updateUser: updateUser(dispatch)
 }))(withAlert()(UserEditor));

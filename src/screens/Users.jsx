@@ -26,7 +26,7 @@ class Users extends Component {
   );
 
   navigateToEdit = user => {
-    this.props.history.push(`/user/${user.uid}`);
+    this.props.history.push(`/app/user/${user.uid}`);
   };
 
   render () {
@@ -34,7 +34,7 @@ class Users extends Component {
       <div>
         <Table
           title="Users"
-          onAdd={() => this.props.history.push('add_user')}
+          onAdd={() => this.props.history.push('/app/add_user')}
           isLoading={this.props.loading}
           height={600}
           data={this.getUsers()}

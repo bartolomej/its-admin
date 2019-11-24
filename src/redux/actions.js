@@ -90,6 +90,16 @@ export const logout = dispatch => async () => {
 
 /** USER ACTIONS **/
 
+export const fetchUser = dispatch => async (uid) => {
+  dispatch({ type: FETCH_PROFILE_REQUEST });
+  try {
+    const response = await get(`/user/${uid}`);
+    dispatch({ type: FETCH_PROFILE_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: FETCH_PROFILE_FAILED, payload: e })
+  }
+};
+
 export const fetchUsers = dispatch => async () => {
   dispatch({ type: FETCH_USER_REQUEST });
   try {
@@ -110,10 +120,10 @@ export const deleteUser = dispatch => async (uid) => {
   }
 };
 
-export const updateUser = dispatch => async (user) => {
+export const updateUser = dispatch => async (uid, user) => {
   dispatch({ type: UPDATE_USER_REQUEST });
   try {
-    const response = await put(`/user/${user.uid}`, user);
+    const response = await put(`/user/${uid}`, user);
     dispatch({ type: UPDATE_USER_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: UPDATE_USER_FAILED, payload: e })
@@ -167,11 +177,11 @@ export const deleteCategory = dispatch => async (uid) => {
   }
 };
 
-export const updateCategory = dispatch => async (category) => {
+export const updateCategory = dispatch => async (uid, data) => {
   dispatch({ type: UPDATE_CATEGORY_REQUEST });
-  const url = `/education/category/${category.uid}`;
+  const url = `/education/category/${uid}`;
   try {
-    const response = await put(url, category);
+    const response = await put(url, data);
     dispatch({ type: UPDATE_CATEGORY_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: UPDATE_CATEGORY_FAILED, payload: e })

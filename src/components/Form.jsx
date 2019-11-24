@@ -28,7 +28,7 @@ import Modal from "rsuite/es/Modal";
 export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'update'}) => {
   let formObject = {};
   for (let ele of formElements) {
-    formObject[ele.key] = ele.value;
+    formObject[ele.key] = ele.data;
   }
   const [formValue, setFormValue] = useState(formObject);
   const [openModal, setOpenModal] = useState(false);
@@ -60,7 +60,7 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
                     <ControlLabel>{ele.title}</ControlLabel>
                     <FormControl
                       name="text"
-                      value={ele.data}
+                      value={formValue[ele.key]}
                       disabled={ele.disabled}
                       onChange={(value, event) => update(ele.key, value)}
                     />
@@ -73,7 +73,7 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
                     <ControlLabel>{ele.title}</ControlLabel>
                     <FormControl
                       name="datePicker"
-                      value={ele.data}
+                      value={typeof formValue[ele.key] === 'string' ? new Date(formValue[ele.key]) : formValue[ele.key]}
                       accepter={DatePicker}
                       disabled={ele.disabled}
                       onChange={(value, event) => update(ele.key, value)}
@@ -90,7 +90,7 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
                       disabled={ele.disabled}
                       onChange={(value, event) => update(ele.key, value)}
                     >
-                      {ele.data.map(ele => (
+                      {formValue[ele.key].map(ele => (
                         <Radio disabled={ele.disabled} value={ele.value}>
                           {ele.label}
                         </Radio>
@@ -105,7 +105,7 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
                     <FormControl
                       name="selectPicker"
                       accepter={SelectPicker}
-                      data={ele.data}
+                      data={formValue[ele.key]}
                       disabled={ele.disabled}
                       onChange={(value, event) => update(ele.key, value)}
                     />
@@ -120,7 +120,7 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
                       name="tagPicker"
                       accepter={TagPicker}
                       defaultValue={ele.data && ele.data.map(e => e.label)}
-                      data={ele.data}
+                      data={formValue[ele.key]}
                       disabled={ele.disabled}
                       onChange={(value, event) => update(ele.key, value)}
 
@@ -150,17 +150,17 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
         {type === 'create'
           ? (
             <ButtonToolbar>
-              <Button appearance="primary" onClick={() => onSubmit(formValue)}>
+              <Button appearance="primary" onClick={() => onSubmit(entityUid, formValue)}>
                 Submit
               </Button>
             </ButtonToolbar>
           )
           : (
             <ButtonToolbar>
-              <Button appearance="primary" onClick={() => onSubmit(formValue)}>
-                Submit
+              <Button appearance="primary" onClick={() => onSubmit(entityUid, formValue)}>
+                Update
               </Button>
-              <Button appearance="secondary" onClick={() => setOpenModal(!openModal)}>
+              <Button appearance="subtle" onClick={() => setOpenModal(!openModal)}>
                 Delete
               </Button>
             </ButtonToolbar>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import 'styled-components/macro'
 import { connect } from "react-redux";
@@ -22,7 +22,7 @@ function App ({user, loading, error, loggedIn}) {
         <Login/>
       </Route>
       <Route path="/app">
-        <Sidebar/>
+        <Sidebar username={user && user.username}/>
         <MainView/>
       </Route>
     </Router>
@@ -62,7 +62,7 @@ function MainView () {
   )
 }
 
-function Sidebar () {
+function Sidebar ({username}) {
   return (
     <div
       css={`
@@ -80,7 +80,7 @@ function Sidebar () {
            height: 20%; 
            align-items: center
         `}>
-        <AdminProfile username={'bartolomej'} />
+        <AdminProfile username={username} />
       </div>
       <div>
         {routes
@@ -124,7 +124,7 @@ function AdminProfile ({ username }) {
           font-size: 15px; 
           padding: 10px
         `}>
-        {username}
+        {username ? username : ''}
       </span>
     </div>
   )

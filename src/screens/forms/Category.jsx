@@ -60,7 +60,8 @@ class UserForm extends Component {
       <div>
         <Form
           type={this.state.mode}
-          onSubmit={console.log}
+          onSubmit={(uid, data) => this.props.updateCategory(uid, data)}
+          onDelete={uid => this.props.deleteCategory(uid)}
           formElements={[
             {
               type: 'text',
@@ -97,5 +98,6 @@ export default connect(({ education }) => ({
   categories: education.categories,
 }), dispatch => ({
   onAction: onAction(dispatch),
-  dispatch
+  deleteCategory: deleteCategory(dispatch),
+  updateCategory: updateCategory(dispatch)
 }))(withAlert()(UserForm));

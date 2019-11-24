@@ -42,15 +42,15 @@ class Courses extends Component {
   };
 
   onCategoryEdit = category => {
-    this.props.history.push(`/category/${category.uid}`);
+    this.props.history.push(`/app/category/${category.uid}`);
   };
 
   onSubcategoryEdit = subcategory => {
-    this.props.history.push(`/subcategory/${subcategory.uid}`);
+    this.props.history.push(`/app/subcategory/${subcategory.uid}`);
   };
 
   onCourseEdit = course => {
-    this.props.history.push(`/course/${course.uid}`);
+    this.props.history.push(`/app/course/${course.uid}`);
   };
 
   render () {
@@ -59,7 +59,7 @@ class Courses extends Component {
         <Table
           title="Categories"
           style={`margin-bottom: 20px`}
-          onAdd={() => this.props.history.push('/add_category')}
+          onAdd={() => this.props.history.push('/app/add_category')}
           isLoading={this.props.loading}
           height={200}
           data={this.props.categories}
@@ -72,7 +72,7 @@ class Courses extends Component {
         <Table
           title="Subcategories"
           style={`margin-bottom: 20px`}
-          onAdd={() => this.props.history.push('/add_subcategory')}
+          onAdd={() => this.props.history.push('/app/add_subcategory')}
           isLoading={this.props.loading}
           height={200}
           data={this.props.subcategories}
@@ -84,7 +84,7 @@ class Courses extends Component {
         />
         <Table
           title="Courses"
-          onAdd={() => this.props.history.push('/add_course')}
+          onAdd={() => this.props.history.push('/app/add_course')}
           isLoading={this.props.loading}
           height={300}
           data={this.props.courses.map(c => ({...c, tags: c.tags.join(', ')}))}

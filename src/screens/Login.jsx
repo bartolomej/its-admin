@@ -4,30 +4,30 @@ import { Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button, ButtonTo
 import { connect } from "react-redux";
 import 'styled-components/macro';
 import { showSimpleNotification } from "../utils/notification";
-import { login } from "../redux/actions";
 import { subscribe } from "redux-subscriber";
+import { fetchUser, login } from "../redux/actions";
 
 
-function Login ({loading, user, authToken, login, history}) {
+function Login ({ loading, user, authToken, login, history, fetchUser }) {
   const [loginCred, setLoginCred] = useState(null);
 
   useEffect(() => {
     subscribe('profile.error', state => {
       showSimpleNotification('error', state.profile.error.message);
     });
-    subscribe('profile.loggedIn', state => {
+    subscribe('profile.loggedIn', async state => {
       if (state.profile.loggedIn) history.push('/app');
     });
   }, []);
 
-  function handleLogin () {
+  async function handleLogin () {
     if (!loginCred) {
       return showSimpleNotification('error', "Please input login credentials")
     }
     if (loginCred.password.length < 6) {
       return showSimpleNotification('error', "Password too short");
     }
-    login(loginCred.email, loginCred.password)
+    await login(loginCred.email, loginCred.password)
   }
 
   return (
@@ -69,6 +69,7 @@ export default connect(
     authToken: state.profile.authToken
   }),
   dispatch => ({
-    login: login(dispatch)
+    login: login(dispatch),
+    fetchUser: fetchUser(dispatch)
   })
 )(withRouter(Login));

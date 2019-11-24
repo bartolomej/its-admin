@@ -4,6 +4,7 @@ import 'styled-components/macro';
 import styled from "styled-components";
 import ChartistExample from '../components/ChartistExample';
 import logo from '../assets/pv.svg';
+import { fetchUser } from "../redux/actions";
 
 
 class Dashboard extends Component {
@@ -13,25 +14,29 @@ class Dashboard extends Component {
     this.state = {};
   }
 
+  componentDidMount = async () => {
+    await this.props.fetchUser(this.props.uid);
+  };
+
   render () {
     return (
       <Container>
 
         <StatsContainer>
           <StatsCard>
-            <img className="chart-img" src={logo}  alt="test"/>
-            <div className="title">Page Views </div>
+            <img className="chart-img" src={logo} alt="test"/>
+            <div className="title">Page Views</div>
             <div className="value">281,358</div>
           </StatsCard>
           <StatsCard>
-            <img className="chart-img" src={logo}  alt="test"/>
-            <div className="title">Page Views </div>
+            <img className="chart-img" src={logo} alt="test"/>
+            <div className="title">Page Views</div>
             <div className="value">281,358</div>
           </StatsCard>
         </StatsContainer>
 
         <StatsCard>
-          <ChartistExample title="Page Views Trends by Week" type="Line" />
+          <ChartistExample title="Page Views Trends by Week" type="Line"/>
         </StatsCard>
 
       </Container>
@@ -64,9 +69,15 @@ const StatsCard = styled.div`
   padding: 20px;
 `;
 
-
-export default connect(state => ({
-  isLoading: state.user.isLoading,
-  error: state.user.error,
-  users: state.user.users,
-}))(Dashboard);
+export default connect(
+  state => ({
+    isLoading: state.user.isLoading,
+    error: state.user.error,
+    users: state.user.users,
+    uid: state.profile.uid,
+    profile: state.profile.user
+  }),
+  dispatch => ({
+    fetchUser: fetchUser(dispatch)
+  })
+)(Dashboard);

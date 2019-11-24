@@ -12,6 +12,7 @@ const initialState = {
   loading: false,
   error: null,
   loggedIn: false,
+  uid: null,
   user: null
 };
 
@@ -27,6 +28,7 @@ export default function (state = initialState, action) {
     case AUTH_ADMIN_SUCCESS:
       return {
         ...state,
+        uid: action.payload.user.uid,
         loading: false,
         loggedIn: true
       };
