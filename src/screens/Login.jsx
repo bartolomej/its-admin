@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { useFirebase } from 'react-redux-firebase'
 import { Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button, ButtonToolbar } from 'rsuite';
 import { connect } from "react-redux";
 import 'styled-components/macro';
 import { showSimpleNotification } from "../utils/notification";
+import { login } from "../redux/actions";
+import { subscribe } from "redux-subscriber";
 
 
-function Login () {
-  const firebase = useFirebase();
+function Login ({loading, user, authToken, login, history}) {
   const [loginCred, setLoginCred] = useState(null);
 
-  function emailLogin (cred) {
-    return firebase.login(cred)
-      .then(console.log)
-      .catch(err => showSimpleNotification('error', err.message))
+  useEffect(() => {
+    subscribe('profile.error', state => {
+      showSimpleNotification('error', state.profile.error.message);
+    });
+    subscribe('profile.loggedIn', state => {
+      if (state.profile.loggedIn) history.push('/app');
+    });
+  }, []);
+
+  function handleLogin () {
+    if (!loginCred.password || !loginCred.email) {
+      return showSimpleNotification('error', "Please fill login credentials")
+    }
+    if (loginCred.password.length < 6) {
+      return showSimpleNotification('error', "Password too short");
+    }
+    login(loginCred.email, loginCred.password)
   }
 
   return (
@@ -37,7 +50,7 @@ function Login () {
         </FormGroup>
         <FormGroup>
           <Button
-            onClick={() => emailLogin(loginCred)}
+            onClick={handleLogin}
             appearance="primary"
           >
             Login
@@ -52,10 +65,10 @@ export default connect(
   state => ({
     loading: state.profile.loading,
     error: state.profile.error,
-    profile: state.profile.profile,
+    user: state.profile.user,
     authToken: state.profile.authToken
   }),
   dispatch => ({
-
+    login: login(dispatch)
   })
 )(withRouter(Login));

@@ -10,8 +10,8 @@ export const NameCell = ({ rowData, dataKey, ...props }) => {
   const speaker = (
     <Popover title="Description">
       {
-        keys.map( k => (
-          <p>
+        keys.map( (k, index) => (
+          <p key={index}>
             <b>{k.substring(0, 1).toUpperCase() + k.substring(1, k.length)}:</b> {rowData[k]}{' '}
           </p>
         ))
@@ -138,11 +138,11 @@ export default function ({ data, columns, height, isLoading, onRowClick, onAdd, 
         }}
       >
         {
-          columns.map(c => {
+          columns.map((c, index) => {
             switch (c.type) {
               case 'email':
                 return (
-                  <Column width={c.width}>
+                  <Column key={index}  width={c.width}>
                     <HeaderCell>{c.title}</HeaderCell>
                     <Cell>
                       {rowData => (
@@ -153,21 +153,21 @@ export default function ({ data, columns, height, isLoading, onRowClick, onAdd, 
                 );
               case 'image':
                 return (
-                  <Column width={c.width} align="center">
+                  <Column key={index} width={c.width} align="center">
                     <HeaderCell>{c.title}</HeaderCell>
                     <ImageCell dataKey={c.key}/>
                   </Column>
                 );
               case 'text':
                 return (
-                  <Column width={c.width}>
+                  <Column key={index}  width={c.width}>
                     <HeaderCell>{c.title}</HeaderCell>
                     <NameCell dataKey={c.key}/>
                   </Column>
                 );
               case 'action':
                 return (
-                  <Column width={c.width}>
+                  <Column key={index}  width={c.width}>
                     <HeaderCell>{c.title}</HeaderCell>
                     <ActionCell onEdit={c.onEdit} dataKey={c.key}/>
                   </Column>

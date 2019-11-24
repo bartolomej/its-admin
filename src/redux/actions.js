@@ -54,9 +54,38 @@ import {
   REMOVE_USER_FAILED,
   FETCH_EMAILS_REQUEST,
   FETCH_EMAILS_SUCCESS,
-  FETCH_EMAILS_FAILED
+  FETCH_EMAILS_FAILED,
+  AUTH_ADMIN_REQUEST,
+  AUTH_ADMIN_SUCCESS,
+  AUTH_ADMIN_FAILED
 } from "./action-types";
 import { get, put, post, remove } from "../utils/request";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import DomainError from "../utils/DomainError";
+
+
+/** AUTH ACTIONS (https://firebase.google.com/docs/auth/web/password-auth) **/
+
+export const login = dispatch => async (email, password) => {
+  dispatch({ type: AUTH_ADMIN_REQUEST });
+  try {
+    const authorized = await firebase.login({email, password});
+    dispatch({ type: AUTH_ADMIN_SUCCESS, payload: authorized })
+  } catch (e) {
+    dispatch({ type: AUTH_ADMIN_FAILED, payload: new DomainError(e.code, e.message) })
+  }
+};
+
+export const logout = dispatch => async () => {
+  dispatch({ type: AUTH_ADMIN_REQUEST });
+  try {
+    const signedOut = await firebase.auth().signOut();
+    dispatch({ type: AUTH_ADMIN_SUCCESS, payload: signedOut })
+  } catch (e) {
+    dispatch({ type: AUTH_ADMIN_FAILED, payload: new DomainError(e.code, e.message) })
+  }
+};
 
 
 /** USER ACTIONS **/

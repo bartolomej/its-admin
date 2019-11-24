@@ -21,15 +21,20 @@ class UserForm extends Component {
   }
 
   componentDidMount () {
+    // register redux listeners
+    this.registerListeners();
+    // category tags received as url params
     const categoryUid = this.props.match.params.uid;
+    // retrieve current category
     const category = getCategory(this.props.categories, categoryUid);
     if (categoryUid !== undefined) {
-      this.setState({category});
-      this.setState({ mode: 'update' });
+      this.setState({
+        mode: 'update',
+        category
+      });
     } else {
       this.setState({ mode: 'create' });
     }
-    this.registerListeners();
   }
 
   componentWillUnmount () {
@@ -37,9 +42,11 @@ class UserForm extends Component {
   }
 
   registerListeners = () => {
+    // subscribes to education.error state changes
     this.unsubscribe = subscribe('education.error', state => {
       this.props.alert.error(state.education.error.message);
     });
+    // subscribes to UPDATE_CATEGORY_SUCCESS action
     this.props.onAction(UPDATE_CATEGORY_SUCCESS, action => {
       this.props.alert.info('Successfully updated category');
     });
@@ -83,11 +90,11 @@ class UserForm extends Component {
 
 }
 
-
-export default connect(state => ({
-  loading: state.education.isLoading,
-  error: state.education.error,
-  categories: state.education.categories,
+// connect redux store to props
+export default connect(({ education }) => ({
+  loading: education.isLoading,
+  error: education.error,
+  categories: education.categories,
 }), dispatch => ({
   onAction: onAction(dispatch),
   dispatch

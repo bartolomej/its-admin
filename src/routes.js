@@ -22,32 +22,32 @@ import Login from './screens/Login';
 
 const sidebarRoutes = [
   {
-    path: "/",
+    path: "/app/",
     exact: true,
     title: 'DASHBOARD',
     image: <FontAwesomeIcon icon={faHome}/>,
     component: DashboardScreen
   },
   {
-    path: "/user",
+    path: "/app/user",
     title: 'USERS',
     image: <FontAwesomeIcon icon={faUser}/>,
     component: UserScreen
   },
   {
-    path: "/course",
+    path: "/app/course",
     title: 'COURSES',
     image: <FontAwesomeIcon icon={faBook}/>,
     component: CourseScreen
   },
   {
-    path: "/event",
+    path: "/app/event",
     title: 'EVENTS',
     image: <FontAwesomeIcon icon={faList}/>,
     component: Events
   },
   {
-    path: "/email",
+    path: "/app/email",
     title: 'EMAILS',
     image: <FontAwesomeIcon icon={faEnvelope}/>,
     component: Emails
@@ -56,39 +56,39 @@ const sidebarRoutes = [
 
 const otherRoutes = [
   {
-    path: "/login",
+    path: "/app/login",
     component: Login
   },
   {
-    path: "/user/:uid",
+    path: "/app/user/:uid",
     component: UserForm
   },
   {
-    path: "/category/:uid",
+    path: "/app/category/:uid",
     component: CategoryForm
   },
   {
-    path: "/subcategory/:uid",
+    path: "/app/subcategory/:uid",
     component: SubcategoryForm
   },
   {
-    path: "/course/:uid",
+    path: "/app/course/:uid",
     component: CourseEditor
   },
   {
-    path: "/add_user",
+    path: "/app/add_user",
     component: UserForm
   },
   {
-    path: "/add_category",
+    path: "/app/add_category",
     component: CategoryForm
   },
   {
-    path: "/add_subcategory",
+    path: "/app/add_subcategory",
     component: SubcategoryForm
   },
   {
-    path: "/add_course",
+    path: "/app/add_course",
     component: CourseEditor
   }
 ];

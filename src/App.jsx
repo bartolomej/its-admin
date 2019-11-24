@@ -12,17 +12,18 @@ import { DARK_FONT } from "./styles";
 import Login from "./screens/Login";
 
 
-function App () {
-  const loggedIn = true;
 
+function App ({user, loading, error, loggedIn}) {
+  // redirect to Login screen if authToken not present
   return (
     <Router>
-      {!loggedIn
-        ? <Redirect to="/login" />
-        : (<><Sidebar/><MainView/></>)
-      }
+      {!loggedIn ? <Redirect to="/login" /> : <Redirect to="/app" />}
       <Route exact path="/login">
         <Login/>
+      </Route>
+      <Route path="/app">
+        <Sidebar/>
+        <MainView/>
       </Route>
     </Router>
   );
@@ -130,5 +131,8 @@ function AdminProfile ({ username }) {
 }
 
 export default connect(state => ({
-  profile: state.profile
+  user: state.profile.user,
+  loading: state.profile.loading,
+  error: state.profile.error,
+  authToken: state.profile.authToken
 }))(App);

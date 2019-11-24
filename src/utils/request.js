@@ -1,15 +1,21 @@
 import DomainError from "./DomainError";
+import * as firebase from "firebase/app";
 
 
 const host = 'http://localhost:3000';
 
+async function getHeaders () {
+  const token = await firebase.auth().currentUser.getIdToken();
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token
+  }
+}
 
 export async function put (url = '', data = {}) {
   const response = await fetch(host + url, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: await getHeaders(),
     body: JSON.stringify(data)
   });
   await validateErrors(response);
@@ -19,9 +25,7 @@ export async function put (url = '', data = {}) {
 export async function post (url = '', data = {}) {
   const response = await fetch(host + url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: await getHeaders(),
     body: JSON.stringify(data)
   });
   await validateErrors(response);
@@ -31,9 +35,7 @@ export async function post (url = '', data = {}) {
 export async function get (url) {
   const response = await fetch(host + url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: await getHeaders(),
   });
   await validateErrors(response);
   return await response.json();
@@ -42,9 +44,7 @@ export async function get (url) {
 export async function remove (url) {
   const response = await fetch(host + url, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: await getHeaders(),
   });
   await validateErrors(response);
   return await response.json();
