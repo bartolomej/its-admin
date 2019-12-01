@@ -119,11 +119,10 @@ export default ({title, entityUid, formElements, onSubmit, onDelete, type = 'upd
                       creatable
                       name="tagPicker"
                       accepter={TagPicker}
-                      defaultValue={ele.data && ele.data.map(e => e.label)}
-                      data={formValue[ele.key]}
+                      defaultValue={ele.data && formValue[ele.key]}
+                      data={ele.data && formValue[ele.key].map(e => ({value: e, label: e}))}
                       disabled={ele.disabled}
                       onChange={(value, event) => update(ele.key, value)}
-
                     />
                   </FormGroup>
                 );

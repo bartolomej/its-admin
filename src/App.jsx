@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import 'styled-components/macro'
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,14 +10,28 @@ import TopBar from './components/TopBar';
 import routes from './routes';
 import { DARK_FONT } from "./styles";
 import Login from "./screens/Login";
+import { ENABLE_AUTH, API_HOST } from "./utils/env";
+import { getJwtToken } from "./utils/auth";
 
 
+function App ({ user, loading, error, loggedIn }) {
+  const [isAuth, setIsAuth] = useState(false);
 
-function App ({user, loading, error, loggedIn}) {
+  // TODO: test flow when token expires
+  useEffect(async () => {
+    try {
+      await getJwtToken();
+      setIsAuth(true);
+    } catch (e) {}
+
+    console.log('Connected to: ', API_HOST);
+    console.log('Enable auth: ', ENABLE_AUTH);
+  }, []);
+
   // redirect to Login screen if authToken not present
   return (
     <Router>
-      {!loggedIn ? <Redirect to="/login" /> : <Redirect to="/app" />}
+      {ENABLE_AUTH && !isAuth ? <Redirect to="/login"/> : <Redirect to="/app"/>}
       <Route exact path="/login">
         <Login/>
       </Route>
@@ -62,7 +76,7 @@ function MainView () {
   )
 }
 
-function Sidebar ({username}) {
+function Sidebar ({ username }) {
   return (
     <div
       css={`
@@ -80,21 +94,21 @@ function Sidebar ({username}) {
            height: 20%; 
            align-items: center
         `}>
-        <AdminProfile username={username} />
+        <AdminProfile username={username}/>
       </div>
       <div>
         {routes
           .filter(r => r.image && r.title)
           .map((route, index) => (
-            <SidebarLink
-              key={index}
-              activeOnlyWhenExact={route.exact}
-              image={route.image}
-              path={route.path}
-              title={route.title}
-            />
-          )
-        )}
+              <SidebarLink
+                key={index}
+                activeOnlyWhenExact={route.exact}
+                image={route.image}
+                path={route.path}
+                title={route.title}
+              />
+            )
+          )}
       </div>
     </div>
   )

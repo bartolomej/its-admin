@@ -57,11 +57,10 @@ import {
   FETCH_EMAILS_FAILED,
   AUTH_ADMIN_REQUEST,
   AUTH_ADMIN_SUCCESS,
-  AUTH_ADMIN_FAILED
+  AUTH_ADMIN_FAILED, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_REQUEST, FETCH_EVENTS_FAILED
 } from "./action-types";
 import { get, put, post, remove } from "../utils/request";
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import { signIn, signOut } from "../utils/auth";
 import DomainError from "../utils/error";
 
 
@@ -70,8 +69,8 @@ import DomainError from "../utils/error";
 export const login = dispatch => async (email, password) => {
   dispatch({ type: AUTH_ADMIN_REQUEST });
   try {
-    const authorized = await firebase.auth().signInWithEmailAndPassword(email, password);
-    dispatch({ type: AUTH_ADMIN_SUCCESS, payload: authorized })
+    const authorized = await signIn(email, password);
+      dispatch({ type: AUTH_ADMIN_SUCCESS, payload: authorized })
   } catch (e) {
     dispatch({ type: AUTH_ADMIN_FAILED, payload: new DomainError(e.code, e.message) })
   }
@@ -80,13 +79,12 @@ export const login = dispatch => async (email, password) => {
 export const logout = dispatch => async () => {
   dispatch({ type: AUTH_ADMIN_REQUEST });
   try {
-    const signedOut = await firebase.auth().signOut();
-    dispatch({ type: AUTH_ADMIN_SUCCESS, payload: signedOut })
+    const signedOut = await signOut();
+      dispatch({ type: AUTH_ADMIN_SUCCESS, payload: signedOut })
   } catch (e) {
     dispatch({ type: AUTH_ADMIN_FAILED, payload: new DomainError(e.code, e.message) })
   }
 };
-
 
 /** USER ACTIONS **/
 
@@ -150,11 +148,6 @@ export const fetchProfile = dispatch => async (uid) => {
   }
 };
 
-export const clearUserError = dispatch => () => {
-  dispatch({ type: CLEAR_USER_ERROR });
-};
-
-
 /** CATEGORY ACTIONS **/
 
 export const fetchCategories = dispatch => async () => {
@@ -198,7 +191,6 @@ export const addCategory = dispatch => async (category) => {
   }
 };
 
-
 /** SUBCATEGORY ACTIONS **/
 
 export const fetchSubcategories = dispatch => async () => {
@@ -221,9 +213,9 @@ export const deleteSubcategory = dispatch => async (uid) => {
   }
 };
 
-export const updateSubcategory = dispatch => async (subcategory) => {
+export const updateSubcategory = dispatch => async (uid, subcategory) => {
   dispatch({ type: UPDATE_SUBCATEGORY_REQUEST });
-  const url = `/education/subcategory/${subcategory.uid}`;
+  const url = `/education/subcategory/${uid}`;
   try {
     const response = await put(url, subcategory);
     dispatch({ type: UPDATE_SUBCATEGORY_SUCCESS, payload: response })
@@ -241,7 +233,6 @@ export const addSubcategory = dispatch => async (subcategory) => {
     dispatch({ type: ADD_SUBCATEGORY_FAILED, payload: e })
   }
 };
-
 
 /** COURSE ACTIONS **/
 
@@ -266,9 +257,9 @@ export const deleteCourse = dispatch => async (uid) => {
   }
 };
 
-export const updateCourse = dispatch => async (course) => {
+export const updateCourse = dispatch => async (uid, course) => {
   dispatch({ type: UPDATE_COURSE_REQUEST });
-  const url = `/education/course/${course.uid}`;
+  const url = `/education/course/${uid}`;
   try {
     const response = await put(url, course);
     dispatch({ type: UPDATE_COURSE_SUCCESS, payload: response })
@@ -301,5 +292,18 @@ export const fetchEmails = dispatch => async () => {
     dispatch({ type: FETCH_EMAILS_SUCCESS, payload: response })
   } catch (e) {
     dispatch({ type: FETCH_EMAILS_FAILED, payload: e })
+  }
+};
+
+
+/** MAIL ACTIONS **/
+
+export const fetchEvents = dispatch => async () => {
+  dispatch({ type: FETCH_EVENTS_REQUEST });
+  try {
+    const response = await get(`/event`);
+    dispatch({ type: FETCH_EVENTS_SUCCESS, payload: response })
+  } catch (e) {
+    dispatch({ type: FETCH_EVENTS_FAILED, payload: e })
   }
 };

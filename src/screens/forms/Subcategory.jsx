@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import 'styled-components/macro';
 import { withAlert } from 'react-alert';
 import {
-  addSubcategory,
   deleteSubcategory,
   updateSubcategory
 } from "../../redux/actions";
@@ -20,19 +19,12 @@ class UserForm extends Component {
     super(props);
     this.state = {
       mode: '',
-      subcategory: {}
     };
   }
 
   componentDidMount () {
     const subcategoryUid = this.props.match.params.uid;
-    const subcategory = getSubcategory(this.props.subcategories, subcategoryUid);
-    if (subcategoryUid !== undefined) {
-      this.setState({subcategory});
-      this.setState({ mode: 'update' });
-    } else {
-      this.setState({ mode: 'create' });
-    }
+    this.setState({ mode: subcategoryUid !== undefined ? 'update' : 'create', });
     this.registerListeners();
   }
 
@@ -50,18 +42,21 @@ class UserForm extends Component {
   };
 
   render () {
-    if (this.props.loading || !this.state.subcategory) {
+    const subcategoryUid = this.props.match.params.uid;
+    const subcategory = getSubcategory(this.props.subcategories, subcategoryUid);
+
+    if (this.props.loading) {
       return <h3>Loading...</h3>
     }
     return (
       <div>
         <Form
           type={this.state.mode}
-          onSubmit={console.log}
+          onSubmit={updateSubcategory}
           formElements={[
             {
               type: 'text',
-              data: this.state.subcategory.uid,
+              data: subcategory.uid,
               key: 'uid',
               title: 'UID',
               description: 'Universally Unique Identification',
@@ -69,19 +64,19 @@ class UserForm extends Component {
             },
             {
               type: 'text',
-              data: this.state.subcategory.name,
+              data: subcategory.name,
               key: 'name',
               title: 'Name',
             },
             {
               type: 'select',
-              data: this.state.subcategory.categories && this.state.subcategory.categories.map(c => ({value: c, label: c})),
+              data: subcategory.categories && subcategory.categories.map(c => ({value: c, label: c})),
               key: 'name',
               title: 'Name',
             },
             {
               type: 'text',
-              data: this.state.subcategory.description,
+              data: subcategory.description,
               key: 'description',
               title: 'Description',
             }
@@ -100,5 +95,5 @@ export default connect(state => ({
   categories: state.education.categories
 }), dispatch => ({
   onAction: onAction(dispatch),
-  dispatch
+  update: updateSubcategory(dispatch),
 }))(withAlert()(UserForm));

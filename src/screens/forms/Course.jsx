@@ -4,7 +4,7 @@ import * as Showdown from "showdown";
 import 'styled-components/macro'
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { withAlert } from 'react-alert'
-import { addCourse, deleteCourse, updateCourse } from "../../redux/actions";
+import { deleteCourse, updateCourse } from "../../redux/actions";
 import { onAction } from 'redux-action-watch/lib/actionCreators';
 import { connect } from "react-redux";
 import { getCourse } from "../../redux/selectors";
@@ -55,12 +55,17 @@ class Course extends Component {
     this.state = {
       mode: '',
       selectedTab: 'write',
-      course: {}
+      content: ''
     }
-  }
+  };
 
   componentDidMount () {
-    this.setLocalState();
+    const courseUid = this.props.match.params.uid;
+    const course = getCourse(this.props.courses, courseUid);
+    this.setState({
+      mode: courseUid !== undefined ? 'update' : 'create',
+      content: course.content
+    });
     this.registerListeners();
     this.configureTextArea();
   }
@@ -76,20 +81,9 @@ class Course extends Component {
     }, 0);
   };
 
-  setLocalState = () => {
-    const courseUid = this.props.match.params.uid;
-    const course = getCourse(this.props.courses, courseUid);
-    if (courseUid !== undefined) {
-      this.setState({course});
-      this.setState({ mode: 'update' });
-    } else {
-      this.setState({ mode: 'create' });
-    }
-  };
-
   registerListeners = () => {
     this.unsubscribe = subscribe('education.error', state => {
-      this.props.alert.error(state.education.error.message);
+      this.props.alert.error(state.education.error && state.education.error.message);
     });
     this.props.onAction(UPDATE_COURSE_SUCCESS, action => {
       this.props.alert.info('Successfully updated course');
@@ -97,18 +91,26 @@ class Course extends Component {
   };
 
   render () {
-    if (this.props.loading || !this.state.course) {
+    const courseUid = this.props.match.params.uid;
+    const course = getCourse(this.props.courses, courseUid);
+
+    if (this.props.loading) {
       return <h3>Loading...</h3>
     }
     return (
       <div>
         <Form
           type={this.state.mode}
-          onSubmit={console.log}
+          onSubmit={(uid, course) => {
+            course = {...course, content: this.state.content};
+            console.log(course)
+            this.props.update(uid, course);
+          }}
+          entityUid={course.uid}
           formElements={[
             {
               type: 'text',
-              data: this.state.course.uid,
+              data: course.uid,
               key: 'uid',
               title: 'UID',
               description: 'Universally Unique Identification',
@@ -116,25 +118,25 @@ class Course extends Component {
             },
             {
               type: 'text',
-              data: this.state.course.title,
+              data: course.title,
               key: 'title',
               title: 'Title',
             },
             {
               type: 'text',
-              data: this.state.course.description,
+              data: course.description,
               key: 'description',
               title: 'Description',
             },
             {
               type: 'tag',
-              data: this.state.course.tags && this.state.course.tags.map(c => ({value: c, label: c})),
+              data: course.tags && course.tags.map(c => ({value: c, label: c})),
               key: 'tags',
               title: 'Tags',
             },
             {
               type: 'select',
-              data: this.state.course.subcategories && this.state.course.subcategories.map(c => ({value: c, label: c})),
+              data: course.subcategories && course.subcategories.map(c => ({value: c, label: c})),
               key: 'subcategories',
               title: 'Subcategories',
             },
@@ -142,9 +144,9 @@ class Course extends Component {
         />
         <ReactMde
           commands={listCommands}
-          value={this.state.course.content}
+          value={course.content}
           onChange={content => {
-            this.setCourseState({ content });
+            this.setState({ content });
           }}
           selectedTab={this.state.selectedTab}
           onTabChange={selectedTab => {
@@ -185,5 +187,6 @@ export default connect(state => ({
   subcategories: state.education.subcategories
 }), dispatch => ({
   onAction: onAction(dispatch),
-  dispatch
+  update: updateCourse(dispatch),
+  delete: deleteCourse(dispatch)
 }))(withAlert()(Course));

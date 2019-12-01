@@ -1,17 +1,25 @@
 import DomainError from "./error";
-import * as firebase from "firebase/app";
+import { getJwtToken } from "./auth";
+import { API_HOST } from "./env";
 
 
 async function getHeaders () {
-  const token = await firebase.auth().currentUser.getIdToken();
   return {
     'Content-Type': 'application/json',
-    'Authorization': token
+    'Authorization': await getJwtToken()
   }
 }
 
+function getUrl (suffix) {
+  let lastIndex = API_HOST.length - 1;
+  let url = API_HOST[lastIndex] === '/'
+    ? API_HOST.substring(0, lastIndex)
+    : API_HOST;
+  return url + suffix;
+}
+
 export async function put (url = '', data = {}) {
-  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
+  const response = await fetch(getUrl(url), {
     method: 'PUT',
     headers: await getHeaders(),
     body: JSON.stringify(data)
@@ -21,7 +29,7 @@ export async function put (url = '', data = {}) {
 }
 
 export async function post (url = '', data = {}) {
-  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
+  const response = await fetch(getUrl(url), {
     method: 'POST',
     headers: await getHeaders(),
     body: JSON.stringify(data)
@@ -31,7 +39,7 @@ export async function post (url = '', data = {}) {
 }
 
 export async function get (url) {
-  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
+  const response = await fetch(getUrl(url), {
     method: 'GET',
     headers: await getHeaders(),
   });
@@ -40,7 +48,7 @@ export async function get (url) {
 }
 
 export async function remove (url) {
-  const response = await fetch(process.env.REACT_APP_API_HOST + url, {
+  const response = await fetch(getUrl(url), {
     method: 'DELETE',
     headers: await getHeaders(),
   });

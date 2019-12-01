@@ -31,7 +31,7 @@ class Courses extends Component {
   };
 
   componentWillUnmount () {
-    // this.unsubscribe();
+    this.unsubscribe && this.unsubscribe();
   }
 
   registerErrorListener = () => {

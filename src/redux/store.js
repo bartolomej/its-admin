@@ -5,6 +5,7 @@ import actionWatchReducer from 'redux-action-watch/lib/reducer';
 import actionWatchMiddlewareGenerator from 'redux-action-watch/lib/middleware';
 
 import user from './reducers/user';
+import event from './reducers/event';
 import mail from './reducers/mail';
 import profile from './reducers/profile';
 import education from './reducers/education';
@@ -19,7 +20,8 @@ const store = createStore(
     user,
     profile,
     education,
-    mail
+    mail,
+    event
   }),
   composeEnhancers(
     applyMiddleware(logger, actionWatchMiddleware)

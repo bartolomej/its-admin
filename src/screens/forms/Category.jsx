@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import 'styled-components/macro';
 import { withAlert } from 'react-alert';
-import { addCategory, updateCategory, deleteCategory } from "../../redux/actions";
+import { updateCategory, deleteCategory } from "../../redux/actions";
 import { getCategory } from "../../redux/selectors";
 import { subscribe } from "redux-subscriber";
 import { onAction } from 'redux-action-watch/lib/actionCreators';
@@ -21,20 +21,9 @@ class UserForm extends Component {
   }
 
   componentDidMount () {
-    // register redux listeners
-    this.registerListeners();
-    // category tags received as url params
     const categoryUid = this.props.match.params.uid;
-    // retrieve current category
-    const category = getCategory(this.props.categories, categoryUid);
-    if (categoryUid !== undefined) {
-      this.setState({
-        mode: 'update',
-        category
-      });
-    } else {
-      this.setState({ mode: 'create' });
-    }
+    this.setState({ mode: categoryUid !== undefined ? 'update' : 'create', });
+    this.registerListeners();
   }
 
   componentWillUnmount () {
@@ -53,6 +42,9 @@ class UserForm extends Component {
   };
 
   render () {
+    const categoryUid = this.props.match.params.uid;
+    const category = getCategory(this.props.categories, categoryUid);
+
     if (this.props.loading || !this.state.category) {
       return <h3>Loading...</h3>
     }
@@ -60,12 +52,12 @@ class UserForm extends Component {
       <div>
         <Form
           type={this.state.mode}
-          onSubmit={(uid, data) => this.props.updateCategory(uid, data)}
-          onDelete={uid => this.props.deleteCategory(uid)}
+          onSubmit={this.props.updateCategory}
+          onDelete={this.props.deleteCategory}
           formElements={[
             {
               type: 'text',
-              data: this.state.category.uid,
+              data: category.uid,
               key: 'uid',
               title: 'UID',
               description: 'Universally Unique Identification',
@@ -73,13 +65,13 @@ class UserForm extends Component {
             },
             {
               type: 'text',
-              data: this.state.category.name,
+              data: category.name,
               key: 'name',
               title: 'Name',
             },
             {
               type: 'text',
-              data: this.state.category.description,
+              data: category.description,
               key: 'description',
               title: 'Description',
             }

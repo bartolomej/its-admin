@@ -16,19 +16,12 @@ class UserEditor extends Component {
     super(props);
     this.state = {
       mode: '',
-      user: null
     };
   }
 
   componentDidMount () {
     const userUid = this.props.match.params.uid;
-    const user = getUser(this.props.users, userUid);
-    if (userUid !== undefined) {
-      this.setState({user});
-      this.setState({ mode: 'update' });
-    } else {
-      this.setState({ mode: 'create' });
-    }
+    this.setState({ mode: userUid !== undefined ? 'update' : 'create' });
     this.registerListeners();
   }
 
@@ -46,7 +39,10 @@ class UserEditor extends Component {
   };
 
   render () {
-    if (this.props.loading || !this.state.user) {
+    const userUid = this.props.match.params.uid;
+    const user = getUser(this.props.users, userUid);
+
+    if (this.props.loading) {
       return <h3>Loading...</h3>
     }
     return (
@@ -55,11 +51,11 @@ class UserEditor extends Component {
           type={this.state.mode}
           onSubmit={(uid, data) => this.props.updateUser(uid, data)}
           onDelete={uid => this.props.deleteUser(uid)}
-          entityUid={this.state.user.uid}
+          entityUid={user.uid}
           formElements={[
             {
               type: 'text',
-              data: this.state.user.uid,
+              data: user.uid,
               key: 'uid',
               title: 'UID',
               description: 'Universally Unique Identification',
@@ -67,45 +63,48 @@ class UserEditor extends Component {
             },
             {
               type: 'text',
-              data: this.state.user.username,
+              data: user.username,
               key: 'username',
               title: 'Username',
             },
             {
               type: 'text',
-              data: this.state.user.email,
+              data: user.email,
               key: 'email',
               title: 'Email',
             },
             {
               type: 'text',
-              data: this.state.user.website,
+              data: user.website,
               key: 'website',
               title: 'Website',
             },
             {
               type: 'date',
-              data: this.state.user.birthDate,
+              data: user.birthDate,
               key: 'birthDate',
               title: 'Birth Date',
             },
             {
               type: 'date',
-              data: this.state.user.createdDate,
+              data: user.createdDate,
               key: 'createdDate',
               title: 'Joined Date',
-            },
-            {
-              type: 'tag',
-              data: this.state.user.interests && this.state.user.interests.map(e => ({value: e, label: e})),
-              key: 'interests',
-              title: 'Interests',
+              disabled: true
             },
             {
               type: 'text',
-              data: this.state.user.status,
+              data: user.interests.join(', '),
+              key: 'interests',
+              title: 'Interests',
+              disabled: true
+            },
+            {
+              type: 'text',
+              data: user.status,
               key: 'status',
               title: 'Status',
+              disabled: true
             },
           ]}
         />

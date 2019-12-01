@@ -47,6 +47,8 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+
+    /** CATEGORY REDUCERS **/
     case CLEAR_EDUCATION_ERROR:
       return {
         ...state,
@@ -122,6 +124,8 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
+
+    /** SUBCATEGORY REDUCERS **/
     case FETCH_SUBCATEGORIES_REQUEST:
       return {
         ...state,
@@ -192,6 +196,8 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
+
+    /** COURSE REDUCERS **/
     case FETCH_COURSES_REQUEST:
       return {
         ...state,
