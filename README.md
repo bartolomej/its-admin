@@ -7,7 +7,7 @@ Build with [React.js](https://reactjs.org/).
 
 ### Test credentials
 - username: `john.doe@example.com`
-- password: 'password'
+- password: `password`
 
 ## Setup
 
