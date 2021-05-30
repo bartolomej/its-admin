@@ -5,6 +5,10 @@
 Admin management console for [ITS backend app](https://github.com/bartolomej/its-server). 
 Build with [React.js](https://reactjs.org/). 
 
+### Test credentials
+- username: `john.doe@example.com`
+- password: 'password'
+
 ## Setup
 
 To install and work on ITS run:
